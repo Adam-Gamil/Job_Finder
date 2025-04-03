@@ -1,0 +1,64 @@
+.login-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+}
+
+.content{
+    width: 400px;
+    height: 300px;
+    border-radius: 10px;
+    background-color: #0073e67d;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+    justify-content: flex-start;
+    align-items:center;
+    color: white;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+
+}
+.content h1{
+    font-weight: 700;
+    font-size: 40px;
+    margin-top: 50px;
+}
+.content .btn{
+    background: transparent;
+    border:none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #000;
+    /* padding: 5px 20px; */
+    width: 95%;
+    height: 30px;
+    color: #000;
+    background-color: #fff;
+    margin-bottom: 20px;
+    margin: 0 20px;
+}
+.content .btn:hover{
+    animation: colorup 0.5s linear forwards;
+}
+
+@keyframes colorup{
+    0%{
+        background-color: #fff;
+        border-radius: 4px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    100%{
+        background-color: rgb(213, 200, 213);
+        border-radius: 8px;
+        border: 2px solid rgb(130, 175, 238);
+    }
+}
+
+.userOrAdmin{
+    display: flex;
+    margin-top: 15%;
+    width: 80%;
+}
