@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>addJobOpportunity</title>
+    <link rel="stylesheet" href="../css/addJobOpportunity.css">
+    <link rel="stylesheet" href="../css/global.css">
+
+</head>
+<body>
+    
+    <div class="hero">
+
+        <nav>
+            <img src="../images/logo.png" alt="Logo" class="logo" onclick="window.location.href='adminDashboard.html'">
+            <ul>
+                <li><a href="adminDashboard.html">Home</a></li>
+                <li><a href="addJobOpportunity.html">Add Job</a></li>
+                <li><a href="viewCreatedJobs.html"> View Created Jobs</a></li>
+                <li><a href="selectAndEditJobs.html">Select And Edit Jobs</a></li>
+             </ul>
+             
+        </nav>
+
+        
+        <div class="job-opport">
+            <h1>About The Job</h1>
+            
+            <div class="add-details">
+                <div class="input-box">
+                    <label><strong>Job title</strong></label>
+                    <input  type="text" required placeholder="Enter job title">
+                </div>
+                
+            
+                <div class="input-box">
+                    <label><strong>Job Id</strong></label>
+                    <input type="text" required placeholder="Enter job id" minlength="5">
+                </div>
+                
+            
+                <div class="input-box">
+                    <label for="salary"><strong>Job salary</strong></label>
+                    <input id ="salary" type="text" required placeholder="Enter job salary" minlength="5">
+                </div>
+                
+                
+                <label><strong>Job status</strong></label>
+                <div class="stat">
+                    
+                    <label>Open</label>
+                    <input type="radio" name="status" value="Open">
+                    <label>Closed</label>
+                    <input type="radio" name="status" value="Closed">
+                </div>
+
+                
+                <div class="input-box">
+                    <label><strong>Job desciption</strong></label>                    
+                    <textarea class="dis" name="Desciption" id="description" placeholder="Write the description Here" cols="30" rows="5"></textarea>
+                </div>
+                
+            
+                <div class="input-box">
+                    <label for="years_exp"><strong>Years of experience</strong></label>
+                    <input id="years_exp" type="text" required placeholder="Enter years of experience">
+                </div>
+                
+                    <button class="btn" type="submit" onclick="window.location.href='viewCreatedJobs.html'">Add Job</button>
+
+        </div>
+
+        
+    </div>
+            
+    
+</body>
+</html>
