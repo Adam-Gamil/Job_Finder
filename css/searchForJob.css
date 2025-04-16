@@ -83,3 +83,18 @@
     transition: all 0.5s ease-in-out;
 }
 
+#suggestions {
+    border: 1px solid #ccc;
+    max-width: 200px;
+    position: absolute;
+    background-color: white;
+    z-index: 10;
+    border-radius: 5px;
+  }
+  .suggestion-item {
+    padding: 5px;
+    cursor: pointer;
+  }
+  .suggestion-item:hover {
+    background-color: #eee;
+  }
