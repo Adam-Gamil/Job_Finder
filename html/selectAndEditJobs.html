@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Jobs</title>
+    <link rel="stylesheet" href="../css/selectAndEditJobs.css">
+    <link rel="stylesheet" href="../css/global.css">
+
+</head>
+<body>
+    
+    <div class="hero">
+
+        <nav>
+            <img src="../images/logo.png" alt="Logo" class="logo" onclick="window.location.href='adminDashboard.html'">
+            <ul>
+                <li><a href="adminDashboard.html">Home</a></li>
+                <li><a href="addJobOpportunity.html">Add Job</a></li>
+                <li><a href="viewCreatedJobs.html"> View Created Jobs</a></li>
+                <li><a href="selectAndEditJobs.html">Select And Edit Jobs</a></li>
+             </ul>
+             
+        </nav>
+
+        
+        <div class="jobs-container">
+            <h2>View All Jobs</h2>
+            
+            <div class="job-card">
+                <div class="job-basic-info">
+                    <h3 class="company-name">TechCorp</h3>
+                    <p class="job-title">Frontend Developer</p>
+                    <p class="job-experience">1-3 years experience</p>
+                </div>
+
+                
+                <input type="checkbox" id="details-1" class="details-checkbox">
+                <label for="details-1" class="view-details-btn">
+                    View Details <span class="arrow">▼</span>
+                </label>
+                
+
+                <div class="job-details">
+                    <div class="details-content">
+                        <p><strong>Salary:</strong> $80,000 - $100,000</p>
+                        <p><strong>Requirements:</strong> JavaScript, React, HTML/CSS</p>
+                        <p><strong>Location:</strong> Remote</p>
+                        <p><strong>Description:</strong> We're looking for a skilled frontend developer...</p>
+                    </div>
+                    
+
+                    <button class="edit-btn">Edit Job</button>
+                    <button class="delete-btn">Delete Job</button>
+                
+                </div>
+            
+            </div>
+            
+        </div>
+        
+    </div>
+            
+</body>
+</html>

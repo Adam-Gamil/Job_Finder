@@ -1,0 +1,10 @@
+.hero-content h2 {
+    font-size: 50px;
+    font-weight: 600;
+    color: #000;
+    margin: 50px 0;
+
+}
+.hero-content h2 span {
+    color: #0073E6;
+}
