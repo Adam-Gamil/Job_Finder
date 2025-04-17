@@ -13,6 +13,17 @@ class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.appliedJobs = []; 
+    }
+
+    applyJob(job) {
+         
+        // if (this.appliedJobs.includes(job)) { // Check if the user has already applied for the job, make it in it's own JS file
+        //     console.log("You have already applied for this job.");
+        //     return;
+        // }
+        this.appliedJobs.push(job);
+        console.log(`You have successfully applied for the job: ${job.title}`);
     }
 }
 
@@ -22,15 +33,18 @@ class Admin extends User {
         this.companyName = companyName;
         this.AdminJobs = [];
     }
-    addJob(jobs, job) {
-        jobs.push(job);
+    // AllJobs -> represents all jobs in the system
+    addJob(AllJobs, job) {
+        jobs.push(AllJobs);
         this.AdminJobs.push(job);
         return job;
     }
 }
 let AllJobs = [];
 let Users = [];
-let currId = 0;
+let currId = 0; // Current ID for the next job to be added
+// AllJobs.push(new Job(currId, "Software Engineer", "Develop software applications", "John Doe","Tech Corp")); 
+// currId++;
 function saveJobsToLocalStorage() {
     localStorage.setItem("AllJobs", JSON.stringify(AllJobs));
 }
@@ -50,6 +64,6 @@ function LoadUsersFromLocalStorage(){
         Users = JSON.parse(userData).map(user=> new User(user.name, user.email,user.password));
     }
 }
-
+ 
 LoadUsersFromLocalStorage();
 loadJobsFromLocalStorage();

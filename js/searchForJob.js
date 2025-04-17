@@ -1,4 +1,5 @@
 document.getElementById("searchBox").addEventListener("keyup", getSuggestions);
+import* as main from "./main.js";
 
 function getSuggestions() {
   console.log("getSuggestions called");
