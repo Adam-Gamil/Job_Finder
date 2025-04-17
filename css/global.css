@@ -50,8 +50,9 @@
     border-radius: 30px;
 }
 .hero nav ul li a:hover{
-    background-color: #0073E6;
-    color: #fff;
+    /* background-color: #0073E6;
+    color: #fff; */
+    color: #0073E6;
     transition: all 0.3s ease-in-out;
     /* height: 85px; */
 }
