@@ -1,5 +1,4 @@
 import { Users,User,currUser, Admin } from "./main.js";
-Users.push(new Admin("Hazem97","e","e","Hazem Co"));
 
 function validateLogin() {
     const username = document.getElementById("username").value.trim();
