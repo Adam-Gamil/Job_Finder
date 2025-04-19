@@ -1,4 +1,4 @@
-import { Users,currUser,session, User } from "./main.js";
+import { Users,session, User } from "./main.js";
 
 function validateSignup() {
     const username = document.getElementById("username").value.trim();

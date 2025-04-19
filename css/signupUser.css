@@ -27,7 +27,7 @@
 }
 .content .input-box{
     position: relative;
-    margin: 20px 0;
+    margin: 10px 0;
     /* padding:7px 50px; */
     min-width: 95%;
     border-radius: 30px;
@@ -98,7 +98,7 @@
     height: 30px;
     color: #000;
     background-color: #fff;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 .content .btn:hover{
     animation: colorup 0.5s linear forwards;
