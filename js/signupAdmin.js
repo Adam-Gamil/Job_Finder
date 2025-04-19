@@ -1,4 +1,4 @@
-import { Users,session, Admin } from "./main.js";
+import { Users,session, Admin,saveUsersToLocalStorage } from "./main.js";
 
 function validateSignup() {
     const username = document.getElementById("username").value.trim();
@@ -35,7 +35,6 @@ function validateSignup() {
     const newAdmin = new Admin(username, email, password, companyName);
     Users.push(newAdmin);
     session.currUser = newAdmin;
-    saveJobsToLocalStorage();
     saveUsersToLocalStorage();
     window.location.href = "adminDashboard.html";
     return true;
