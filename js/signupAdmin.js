@@ -34,12 +34,10 @@ function validateSignup() {
     }
     const newAdmin = new Admin(username, email, password, companyName);
     Users.push(newAdmin);
-    session.currUser = newAdmin; // Set the current user in the session
-    window.location.href = "adminDashboard.html"; // Redirect to admin page
-    // Save the new admin user to local storage int the future
-    // localStorage.setItem("Users", JSON.stringify(Users));
-    // // Save the current user to local storage
-    // localStorage.setItem("currUser", JSON.stringify(currUser));
+    session.currUser = newAdmin;
+    saveJobsToLocalStorage();
+    saveUsersToLocalStorage();
+    window.location.href = "adminDashboard.html";
     return true;
 }
 const signupButton = document.getElementById("signup-btn");
