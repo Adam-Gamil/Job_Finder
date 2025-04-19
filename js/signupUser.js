@@ -1,13 +1,12 @@
-import { Users,currUser,session, Admin } from "./main.js";
+import { Users,currUser,session, User } from "./main.js";
 
 function validateSignup() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
     const confirmPassword = document.getElementById("confirmPassword").value.trim();
     const email = document.getElementById("email").value.trim();
-    const companyName = document.getElementById("companyName").value.trim();
 
-    if (username === "" || password === "" || confirmPassword === "" || email === "" || companyName === "") {
+    if (username === "" || password === "" || confirmPassword === "" || email === "") {
         Swal.fire({
             icon: "error",
             title: "Oops...",
@@ -32,10 +31,10 @@ function validateSignup() {
           });
         return false;
     }
-    const newAdmin = new Admin(username, email, password, companyName);
-    Users.push(newAdmin);
-    session.currUser = newAdmin; // Set the current user in the session
-    window.location.href = "adminDashboard.html"; // Redirect to admin page
+    const newUser = new User(username, email, password);
+    Users.push(newUser);
+    session.currUser = newUser; 
+    window.location.href = "userDashboard.html"; 
     // Save the new admin user to local storage int the future
     // localStorage.setItem("Users", JSON.stringify(Users));
     // // Save the current user to local storage

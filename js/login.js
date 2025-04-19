@@ -1,4 +1,4 @@
-import { Users,User,currUser, Admin } from "./main.js";
+import { Users,User,session, Admin } from "./main.js";
 
 function validateLogin() {
     const username = document.getElementById("username").value.trim();
@@ -23,19 +23,18 @@ function validateLogin() {
           });
         return false;
     }
-
-    // Redirect to the appropriate page based on user type
+    session.currUser = user;
     if (user.isadmin) {
-        window.location.href = "adminDashboard.html"; // Redirect to admin page
+        window.location.href = "adminDashboard.html";
     } else {
-        window.location.href = "userDashboard.html"; // Redirect to user page
+        window.location.href = "userDashboard.html";
     }
-    currUser = user;
     return true;
     //save the user to local storage in the future
     // localStorage.setItem("currUser", JSON.stringify(currUser));
 }
 const loginButton = document.getElementById("login-btn");
+console.log(loginButton);
 loginButton.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent form submission
     validateLogin();

@@ -44,7 +44,9 @@ export class Admin extends User {
 export let AllJobs = [];
 export let Users = [];
 export let currId = 0; // Current ID for the next job to be added
-export let currUser = null; // Current user 
+export const session = {
+    currUser: null,
+}; 
 
 export function saveJobsToLocalStorage() {
     localStorage.setItem("AllJobs", JSON.stringify(AllJobs));
@@ -74,5 +76,7 @@ export function LoadUsersFromLocalStorage() {
 }
 
 // Load users and jobs from localStorage on page load
+console.log(Users);
+console.log(session.currUser);
 LoadUsersFromLocalStorage();
 loadJobsFromLocalStorage();
