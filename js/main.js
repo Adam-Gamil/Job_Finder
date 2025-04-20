@@ -1,10 +1,13 @@
 export class Job {
-    constructor(id, title, description, postedBy, companyName) {
+    constructor(id, companyName, title, yearsOfExperience, salary, requirements, location, description) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.postedBy = postedBy;
         this.companyName = companyName;
+        this.yearsOfExperience = yearsOfExperience;
+        this.salary = salary;
+        this.requirements = requirements;
+        this.location = location;
     }
 }
 
@@ -41,7 +44,9 @@ export class Admin extends User {
     }
 }
 
+
 export let AllJobs = [];
+
 export let Users = [];
 export let currId = 0; // Current ID for the next job to be added
 export const session = {
@@ -56,7 +61,16 @@ export function loadJobsFromLocalStorage() {
     const jobs = localStorage.getItem("AllJobs");
     if (jobs) {
         AllJobs = JSON.parse(jobs).map(
-            (job) => new Job(job.id, job.title, job.description, job.postedBy, job.companyName)
+            (job) => new Job(
+                job.id,
+                job.companyName,
+                job.title,
+                job.yearsOfExperience,
+                job.salary,
+                job.requirements,
+                job.location,
+                job.description
+            )
         );
         currId = AllJobs.length > 0 ? AllJobs[AllJobs.length - 1].id + 1 : 0;
     }
@@ -66,17 +80,59 @@ export function saveUsersToLocalStorage() {
     localStorage.setItem("Users", JSON.stringify(Users));
 }
 
-export function LoadUsersFromLocalStorage() {
-    const userData = localStorage.getItem("Users");
-    if (userData) {
-        Users = JSON.parse(userData).map(
-            (user) => new User(user.name, user.email, user.password)
-        );
-    }
-}
+
 
 // Load users and jobs from localStorage on page load
 console.log(Users);
 console.log(session.currUser);
+
+export function saveSessionToLocalStorage() {
+    if (session.currUser) {
+        localStorage.setItem("currentSession", JSON.stringify({
+            userEmail: session.currUser.email,
+            timestamp: new Date().getTime()
+        }));
+    }
+}
+
+export function loadSessionFromLocalStorage() {
+    const sessionData = localStorage.getItem("currentSession");
+    if (sessionData) {
+        const { userEmail } = JSON.parse(sessionData);
+        const user = Users.find(u => u.email === userEmail);
+        if (user) {
+            session.currUser = user;
+        }
+    }
+}
+
+// Update your existing LoadUsersFromLocalStorage to also load session
+export function LoadUsersFromLocalStorage() {
+    const userData = localStorage.getItem("Users");
+    if (userData) {
+        Users = JSON.parse(userData).map(
+            (user) => user.isadmin 
+                ? new Admin(user.name, user.email, user.password, user.companyName)
+                : new User(user.name, user.email, user.password)
+        );
+    }
+    loadSessionFromLocalStorage(); // Add this line
+}
 LoadUsersFromLocalStorage();
 loadJobsFromLocalStorage();
+
+if (AllJobs.length === 0) {
+    let job = new Job(
+        5,                      // id
+        "Google",               // companyName
+        "Software Engineer",    // title
+        "3-7 years experience", // yearsOfExperience
+        "$60000 - $70000",     // salary
+        "JavaScript, React, c++, SQL",    // requirements
+        "London",             // location
+        "Full-time"             // description
+    );
+    AllJobs.push(job);
+    saveJobsToLocalStorage();
+}
+

@@ -1,4 +1,4 @@
-import { Users,User,session, Admin } from "./main.js";
+import { Users,User,session, Admin, saveSessionToLocalStorage } from "./main.js";
 
 function validateLogin() {
     const username = document.getElementById("username").value.trim();
@@ -24,6 +24,7 @@ function validateLogin() {
         return false;
     }
     session.currUser = user;
+    saveSessionToLocalStorage(); 
     if (user.isadmin) {
         window.location.href = "adminDashboard.html";
     } else {
