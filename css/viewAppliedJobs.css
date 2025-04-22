@@ -1,11 +1,11 @@
-.jobs-container {
+#jobs-container {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px;
     font-family: Arial, sans-serif;
 }
 
-.jobs-container h2 {
+#jobs-container h2 {
     color: #333;
     margin-bottom: 20px;
     text-align: center;

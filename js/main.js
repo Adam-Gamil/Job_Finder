@@ -1,5 +1,5 @@
 export class Job {
-    constructor(id, companyName, title, yearsOfExperience, salary, requirements, location, description) {
+    constructor(id, companyName, title, yearsOfExperience, salary, requirements, location, description, status = "open") {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -8,6 +8,7 @@ export class Job {
         this.salary = salary;
         this.requirements = requirements;
         this.location = location;
+        this.status = status;
     }
 }
 
@@ -25,8 +26,33 @@ export class User {
     }
 
     applyJob(job) {
+        // Check if already applied
+        if (this.appliedJobs.some(j => j.id === job.id)) {
+            return false;
+        }
+        
+        // Add to applied jobs
         this.appliedJobs.push(job);
-        console.log(`You have successfully applied for the job: ${job.title}`);
+        console.log(`Applied for job: ${job.title}`);
+        
+        // Save to localStorage immediately
+        saveUsersToLocalStorage();
+        return true;
+    }
+
+    withdrawJob(jobId) {
+        jobId = Number(jobId); // Convert to number
+        console.log(`Withdrawing job ${jobId} (type: ${typeof jobId})`);
+        
+        let newAppliedJobs = [];
+        for (let i = 0; i < this.appliedJobs.length; i++) {
+            const job = this.appliedJobs[i];
+            if (Number(job.id) !== jobId) {
+                newAppliedJobs.push(job);
+            }
+        }
+        this.appliedJobs = newAppliedJobs;
+        return true;
     }
 }
 
@@ -69,7 +95,8 @@ export function loadJobsFromLocalStorage() {
                 job.salary,
                 job.requirements,
                 job.location,
-                job.description
+                job.description,
+                job.status
             )
         );
         currId = AllJobs.length > 0 ? AllJobs[AllJobs.length - 1].id + 1 : 0;
@@ -110,13 +137,32 @@ export function loadSessionFromLocalStorage() {
 export function LoadUsersFromLocalStorage() {
     const userData = localStorage.getItem("Users");
     if (userData) {
-        Users = JSON.parse(userData).map(
-            (user) => user.isadmin 
+        Users = JSON.parse(userData).map(user => {
+            // Recreate user object
+            const userObj = user.isadmin 
                 ? new Admin(user.name, user.email, user.password, user.companyName)
-                : new User(user.name, user.email, user.password)
-        );
+                : new User(user.name, user.email, user.password);
+            
+            // Properly reconstruct appliedJobs
+            if (user.appliedJobs) {
+                userObj.appliedJobs = user.appliedJobs.map(jobData => {
+                    return new Job(
+                        jobData.id,
+                        jobData.companyName,
+                        jobData.title,
+                        jobData.yearsOfExperience,
+                        jobData.salary,
+                        jobData.requirements,
+                        jobData.location,
+                        jobData.description,
+                        jobData.status
+                    );
+                });
+            }
+            return userObj;
+        });
     }
-    loadSessionFromLocalStorage(); // Add this line
+    loadSessionFromLocalStorage();
 }
 LoadUsersFromLocalStorage();
 loadJobsFromLocalStorage();
@@ -130,7 +176,26 @@ if (AllJobs.length === 0) {
         "$60000 - $70000",     // salary
         "JavaScript, React, c++, SQL",    // requirements
         "London",             // location
-        "Full-time"             // description
+        "Full-time",             // description
+        "open"                // status
+    );
+    AllJobs.push(job);
+    saveJobsToLocalStorage();
+}
+
+
+
+if (AllJobs.length === 1) {
+    let job = new Job(
+        1,                      // id
+        "Facebook",               // companyName
+        "Data scientist",    // title
+        "3-7 years experience", // yearsOfExperience
+        "$90000 - $110000",     // salary
+        "Sql, python, pandas, html, css, javascript",    // requirements
+        "New-York",             // location
+        "Part-time",             // description
+        "open"                // status
     );
     AllJobs.push(job);
     saveJobsToLocalStorage();

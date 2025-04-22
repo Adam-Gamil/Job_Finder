@@ -1,4 +1,4 @@
-import { Users,session, User, saveUsersToLocalStorage } from "./main.js";
+import { Users,session, User, saveUsersToLocalStorage, saveSessionToLocalStorage } from "./main.js";
 
 function validateSignup() {
     const username = document.getElementById("username").value.trim();
@@ -35,6 +35,7 @@ function validateSignup() {
     Users.push(newUser);
     session.currUser = newUser;
     saveUsersToLocalStorage();
+    saveSessionToLocalStorage(); 
     window.location.href = "userDashboard.html"; 
     return true;
 }

@@ -19,11 +19,19 @@ function displayJobs() {
 
     // Add jobs if they exist
     // if job id is already in applied jobs, don't show the job
-    if (AllJobs.length > 0) {
-        AllJobs.forEach((job) => {
-            const jobCard = document.createElement("div");
-            jobCard.className = "job-card";
-            jobCard.innerHTML = `
+
+    console.log(AllJobs);
+    for (let i = 0; i < AllJobs.length; i++) {
+        const job = AllJobs[i];
+         // Check if user is logged in and has applied to this job
+        const isApplied = session.currUser?.appliedJobs?.some(appliedJob => appliedJob.id === job.id);
+        
+        if (isApplied) {
+            continue; // Skip this job if already applied
+        }
+        const jobCard = document.createElement("div");
+        jobCard.className = "job-card";
+        jobCard.innerHTML = `
                 <div class="job-basic-info">
                     <h3 class="company-name">${job.companyName}</h3>
                     <p class="job-title">${job.title}</p>
@@ -31,7 +39,7 @@ function displayJobs() {
                 </div>
                 <input type="checkbox" id="${job.id}" class="details-checkbox">
                 <label for="${job.id}" class="view-details-btn">
-                    View Details <span class="arrow">▼</span>
+                View Details <span class="arrow">▼</span>
                 </label>
                 <div class="job-details">
                     <div class="details-content">
@@ -42,12 +50,10 @@ function displayJobs() {
                     </div>
                     <button class="apply-btn" data-job-id="${job.id}">Apply for Job</button>
                 </div>
-            `;
-            jobContainer.appendChild(jobCard);
-        });
-
-        // Rest of your apply button code...
-        const applyButtons = document.querySelectorAll(".apply-btn");
+        `;
+        jobContainer.appendChild(jobCard);
+    }
+    const applyButtons = document.querySelectorAll(".apply-btn");
         applyButtons.forEach((button) => {
             button.addEventListener("click", (event) => {
                 const jobId = event.target.getAttribute("data-job-id");
@@ -55,6 +61,22 @@ function displayJobs() {
                 console.log(session.currUser);
                 if (session.currUser) {
                     session.currUser.applyJob(job);
+                    
+                    const jobCard = event.target.closest('.job-card');
+                    jobCard.style.transition = 'opacity 0.3s ease';
+                    jobCard.style.opacity = '0';
+                    
+                    // Wait for animation to complete before removing
+                    setTimeout(() => {
+                        jobCard.remove();
+                        
+                        // Optional: Show message if no jobs left
+                        if (document.querySelectorAll('.job-card').length === 0) {
+                            const noJobsMsg = document.createElement('p');
+                            noJobsMsg.textContent = 'No available jobs';
+                            document.getElementById("jobs-container").appendChild(noJobsMsg);
+                        }
+                    }, 300);
                     Swal.fire({
                         icon: "success",
                         title: "Success",
@@ -69,13 +91,8 @@ function displayJobs() {
                 }
             });
         });
-    } else {
-        // Show message when no jobs available
-        const noJobsMsg = document.createElement('p');
-        noJobsMsg.textContent = 'No jobs available';
-        jobContainer.appendChild(noJobsMsg);
-    }
-}
+    } 
+    
 console.log("AllJobs length:", AllJobs.length);
 console.log("AllJobs content:", AllJobs);
 window.addEventListener("DOMContentLoaded", () => {
