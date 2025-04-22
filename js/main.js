@@ -1,5 +1,5 @@
 export class Job {
-    constructor(id, companyName, title, yearsOfExperience, salary, requirements, location, description, status = "open") {
+    constructor(id, companyName, title, yearsOfExperience, salary, requirements, location, description, status = true) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -177,7 +177,7 @@ if (AllJobs.length === 0) {
         "JavaScript, React, c++, SQL",    // requirements
         "London",             // location
         "Full-time",             // description
-        "open"                // status
+        true                // status
     );
     AllJobs.push(job);
     saveJobsToLocalStorage();
@@ -195,7 +195,7 @@ if (AllJobs.length === 1) {
         "Sql, python, pandas, html, css, javascript",    // requirements
         "New-York",             // location
         "Part-time",             // description
-        "open"                // status
+        false                // status
     );
     AllJobs.push(job);
     saveJobsToLocalStorage();
