@@ -100,7 +100,7 @@ function displayJobs() {
                 }
             });
         });
-    } 
+} 
     
 console.log("AllJobs length:", AllJobs.length);
 console.log("AllJobs content:", AllJobs);
