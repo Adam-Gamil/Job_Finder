@@ -68,6 +68,25 @@ export class Admin extends User {
         this.AdminJobs.push(job);
         return job;
     }
+
+    deleteAllJobs(allJobsArray, jobId) {
+        const index = allJobsArray.findIndex(job => Number(job.id) === Number(jobId));
+        if (index !== -1) {
+            allJobsArray.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+    
+    deleteAdminJobs(jobId) {
+        const index = this.AdminJobs.findIndex(job => Number(job.id) === Number(jobId));
+        if (index !== -1) {
+            this.AdminJobs.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+    
 }
 
 
@@ -110,8 +129,8 @@ export function saveUsersToLocalStorage() {
 
 
 // Load users and jobs from localStorage on page load
-console.log(Users);
-console.log(session.currUser);
+// console.log(Users);
+// console.log(session.currUser);
 
 export function saveSessionToLocalStorage() {
     if (session.currUser) {
@@ -159,6 +178,19 @@ export function LoadUsersFromLocalStorage() {
                     );
                 });
             }
+            if (user.isadmin && user.AdminJobs) {
+                userObj.AdminJobs = user.AdminJobs.map(jobData => new Job(
+                    jobData.id,
+                    jobData.companyName,
+                    jobData.title,
+                    jobData.yearsOfExperience,
+                    jobData.salary,
+                    jobData.requirements,
+                    jobData.location,
+                    jobData.description,
+                    jobData.status
+                ));
+            }
             return userObj;
         });
     }
@@ -200,4 +232,59 @@ if (AllJobs.length === 1) {
     AllJobs.push(job);
     saveJobsToLocalStorage();
 }
+/// admin testing
+
+// Add test admin and jobs only if no users exist
+// Add test admin and jobs only if no users exist or no jobs added yet
+loadSessionFromLocalStorage();
+
+if (
+    session.currUser &&
+    session.currUser.isadmin &&
+    (!session.currUser.AdminJobs || session.currUser.AdminJobs.length === 0)
+) {
+    const sampleAdminJobs = [
+        new Job(
+            currId++,
+            "Innovatech",
+            "Full Stack Developer",
+            "2-4 years",
+            "$70,000 - $90,000",
+            "JavaScript, Node.js, React, MongoDB",
+            "San Francisco, CA",
+            "Join our fast-paced team building modern web applications."
+        ),
+        new Job(
+            currId++,
+            "HealthSoft",
+            "Backend Engineer",
+            "3-5 years",
+            "$85,000 - $110,000",
+            "Python, Django, REST APIs",
+            "Remote",
+            "Looking for an experienced backend developer to manage our API infrastructure."
+        ),
+        new Job(
+            currId++,
+            "Finovate",
+            "DevOps Specialist",
+            "1-3 years",
+            "$80,000 - $100,000",
+            "AWS, Docker, CI/CD",
+            "New York, NY",
+            "Help us automate and scale our cloud systems."
+        )
+    ];
+
+    session.currUser.AdminJobs = sampleAdminJobs;
+    AllJobs.push(...sampleAdminJobs);
+
+    saveJobsToLocalStorage();
+    saveUsersToLocalStorage();
+
+    console.log("✅ Sample admin jobs created and saved.");
+}
+
+
+
 
