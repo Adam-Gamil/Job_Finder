@@ -77,3 +77,10 @@
     margin-bottom: 20px;
 }
 
+.input-box .dis {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
