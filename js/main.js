@@ -221,7 +221,7 @@ if (AllJobs.length === 1) {
     let job = new Job(
         1,                      // id
         "Facebook",               // companyName
-        "Data scientist",    // title
+        "Data Scientist",    // title
         "3-7 years experience", // yearsOfExperience
         "$90000 - $110000",     // salary
         "Sql, python, pandas, html, css, javascript",    // requirements

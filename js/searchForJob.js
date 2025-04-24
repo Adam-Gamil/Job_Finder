@@ -62,7 +62,8 @@ document.getElementById("searchBtn").addEventListener("click", function () {
 
 
 function displayJobs(filterCompany = "", filterTitle = "", filterExperience = "") {
-
+    const jobContainer = document.getElementById("jobs-container");
+    jobContainer.innerHTML = ""; // Clear previous jobs
     console.log(AllJobs);
     for (let i = 0; i < AllJobs.length; i++) {
       const job = AllJobs[i];
@@ -83,7 +84,7 @@ function displayJobs(filterCompany = "", filterTitle = "", filterExperience = ""
         continue; // Skip if years of experience doesn't match
       }
       console.log("Job Allowed:", job);
-      const jobContainer = document.getElementById("jobs-container");
+      
       const jobCard = document.createElement("div");
       jobCard.className = "job-card";
       jobCard.innerHTML = `
