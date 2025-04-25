@@ -248,7 +248,7 @@ if (
 ) {
     const sampleAdminJobs = [
         new Job(
-            currId++,
+            Ids.currId++,
             "Innovatech",
             "Full Stack Developer",
             "2-4 years",
@@ -258,7 +258,7 @@ if (
             "Join our fast-paced team building modern web applications."
         ),
         new Job(
-            currId++,
+            Ids.currId++,
             "HealthSoft",
             "Backend Engineer",
             "3-5 years",
@@ -268,7 +268,7 @@ if (
             "Looking for an experienced backend developer to manage our API infrastructure."
         ),
         new Job(
-            currId++,
+            Ids.currId++,
             "Finovate",
             "DevOps Specialist",
             "1-3 years",
