@@ -2,7 +2,7 @@
 .job-opport {
     margin: auto;
     width: 400px;
-    height: 600px;
+    height: 780px;
     border-radius: 10px;
     background-color: #0073e67d;
     backdrop-filter: blur(10px);
@@ -20,7 +20,7 @@
 .job-opport h1 {
     font-weight: 700;
     font-size: 40px;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 
@@ -70,7 +70,7 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     color: #000;
-    width: 95%;
+    width: 100%;
     height: 30px;
     color: #000;
     background-color: #fff;
@@ -84,3 +84,13 @@
     border-radius: 10px;
 }
 
+.filter-dropdown {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.6);
+}
