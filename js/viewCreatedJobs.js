@@ -1,7 +1,8 @@
 import { AllJobs, session, loadSessionFromLocalStorage, saveJobsToLocalStorage } from "./main.js";
+loadSessionFromLocalStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadSessionFromLocalStorage();
+    
 
     // ✅ Make sure to use the correct ID
     const jobsContainer = document.querySelector(".jobs-container");
