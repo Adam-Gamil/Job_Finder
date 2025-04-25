@@ -121,7 +121,7 @@ export function loadJobsFromLocalStorage() {
                 job.status
             )
         );
-        currId = AllJobs.length > 0 ? AllJobs[AllJobs.length - 1].id + 1 : 0;
+        Ids.currId = AllJobs.length > 0 ? AllJobs[AllJobs.length - 1].id + 1 : 0;
     }
 }
 
