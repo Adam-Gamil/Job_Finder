@@ -93,7 +93,10 @@ export class Admin extends User {
 export let AllJobs = [];
 
 export let Users = [];
-export let currId = 0; // Current ID for the next job to be added
+// export let currId = 0; // Current ID for the next job to be added
+export const Ids = {
+    currId: 0
+}; 
 export const session = {
     currUser: null,
 }; 
