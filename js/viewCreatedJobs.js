@@ -1,8 +1,10 @@
 import { AllJobs, session, loadSessionFromLocalStorage, saveJobsToLocalStorage } from "./main.js";
+loadSessionFromLocalStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadSessionFromLocalStorage();
+    
 
+    // ✅ Make sure to use the correct ID
     const jobsContainer = document.querySelector(".jobs-container");
 
     function displayAdminJobs() {
@@ -41,9 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
+    // ✅ Add a short delay just in case session takes time to load
     setTimeout(() => {
-        console.log("Admin Jobs:", session.currUser?.AdminJobs); 
+        console.log("Admin Jobs:", session.currUser?.AdminJobs); // for debugging
         displayAdminJobs();
     }, 50);
 });
