@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             jobsContainer.appendChild(jobCard);
         });
 
-        attachDeleteListeners(); // 👈 attach after rendering
+        attachDeleteListeners();
     }
 
     function attachDeleteListeners() {
