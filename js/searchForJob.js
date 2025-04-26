@@ -116,7 +116,7 @@ function displayJobs(filterCompany = "", filterTitle = "", filterExperience = ""
               const jobId = event.target.getAttribute("data-job-id");
               const job = AllJobs.find((j) => j.id == jobId);
               console.log(session.currUser);
-              if(!job.status) {
+              if(!job.status || job.status === "Closed") {
                   console.log("Job is no longer available.");
                   Swal.fire({
                       icon: "error",
