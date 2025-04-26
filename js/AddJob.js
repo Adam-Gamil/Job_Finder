@@ -25,14 +25,14 @@ document.getElementById("addJobBtn").addEventListener("click", function () {
     const requirements = document.getElementById("requirements").value;
     const description = document.getElementById("description").value;
     const location = document.getElementById("location").value;
-    console.log("Company Name:", company);
-    console.log("Job Title:", jobTitle);
-    console.log("Job Salary:", jobSalary);
-    console.log("Experience:", experience);
-    console.log("Status:", status);
-    console.log("Requirements:", requirements);
-    console.log("Description:", description);
-    console.log("Location:", location);
+    if (!company || !jobTitle || !jobSalary || !experience || !status || !requirements || !description || !location) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "please fill in all fields.",
+          });
+        return false;
+    }
     
     const addedjob = new Job(Ids.currId, company, jobTitle, experience, jobSalary, requirements, location, description, status);
     session.currUser.addJob(AllJobs, addedjob);
