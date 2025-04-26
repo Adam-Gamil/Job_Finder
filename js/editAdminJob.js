@@ -54,6 +54,14 @@ import {
   
       const selectedStatus = Array.from(statusInputs).find(input => input.checked);
       job.status = selectedStatus?.value === "Open";
+
+      AllJobs.find(j => j.id === job.id).status = job.status;
+      AllJobs.find(j => j.id === job.id).title = job.title;
+      AllJobs.find(j => j.id === job.id).salary = job.salary;
+      AllJobs.find(j => j.id === job.id).yearsOfExperience = job.yearsOfExperience;
+      AllJobs.find(j => j.id === job.id).requirements = job.requirements;
+      AllJobs.find(j => j.id === job.id).description = job.description;
+      AllJobs.find(j => j.id === job.id).location = job.location;
   
     
       saveJobsToLocalStorage();
