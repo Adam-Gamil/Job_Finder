@@ -39,6 +39,11 @@
     background-color: #fff;
     margin-bottom: 20px;
     margin: 0 20px;
+    
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    font-size: 14px;
 }
 .content .btn:hover{
     animation: colorup 0.5s linear forwards;
