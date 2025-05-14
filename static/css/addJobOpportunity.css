@@ -1,0 +1,96 @@
+
+.job-opport {
+    margin: auto;
+    width: 400px;
+    height: 780px;
+    border-radius: 10px;
+    background-color: #0073e67d;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+}
+
+
+.job-opport h1 {
+    font-weight: 700;
+    font-size: 40px;
+    margin-top: 40px;
+}
+
+
+.add-details .input-box input {
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px;
+    color: #fff;
+    padding-left: 20px;
+    font-size: medium;
+}
+
+
+.add-details label {
+    text-align: center;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: white;
+}
+
+
+.stat {
+    margin-left: 15%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.add-job {
+    margin-top: 20px;
+}
+
+
+.btn {
+    margin-top: 5px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #000;
+    width: 100%;
+    height: 30px;
+    color: #000;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.input-box .dis {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
+.filter-dropdown {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.6);
+}

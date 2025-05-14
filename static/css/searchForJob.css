@@ -1,0 +1,100 @@
+
+.search-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.search-box {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.filter-select {
+    flex: 1;
+}
+
+.filter-select label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+.filter-dropdown {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 40px;
+}
+
+.search-button:hover {
+    background-color: #45a049;
+}
+
+.search-icon {
+    margin-right: 5px;
+}
+
+
+#offer-img{
+    width: 40%;
+    /* margin-left: 100px; */
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10%;
+}
+.offer-image.anim{
+    animation-delay: 1.5s;
+}
+
+.btn.anim{
+    animation-delay: 1s;
+}
+.getStarted:hover{
+    background-color: #005bb5;
+    transition: all 0.5s ease-in-out;
+}
+
+#suggestions {
+    border: 1px solid #ccc;
+    max-width: 200px;
+    position: absolute;
+    background-color: white;
+    z-index: 10;
+    border-radius: 5px;
+  }
+  .suggestion-item {
+    padding: 5px;
+    cursor: pointer;
+  }
+  .suggestion-item:hover {
+    background-color: #eee;
+  }

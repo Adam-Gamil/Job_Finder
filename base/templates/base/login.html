@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Search-Login</title>
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/login.css">
+{% extends "main.html" %}
+
+{% load static %}
+
+{% block title %}Job Search-Login{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/global.css'%}">
+    <link rel="stylesheet" href="{% static 'css/login.css'%}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-    <div class="hero">
-        
-        <div class="login-form">
+{% endblock styles %}
+{% block content %}
+        <form class="login-form">
             <div class="content anim">
                 <h1>Login</h1>
                 <div class="input-box">
@@ -31,13 +30,13 @@
                     <p>Don't have an account? <a href="signup.html">Register now</a></p>
                 </div>
             </div>
-        </div>
+        </form>
         <!-- <div class="footer">
             <p>2025 Job Search Website</p>
         </div> -->
-    </div>
-    <script type="module" src="../js/main.js"></script>
-    <script type="module" src="../js/login.js"></script>
+{% endblock content %}
+{% block scripts %}
+    <script type="module" src="{% static 'js/main.js'%}"></script>
+    <script type="module" src="{% static 'js/login.js'&}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</body>
-</html>
+{% endblock scripts %}
