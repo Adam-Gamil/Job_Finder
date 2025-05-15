@@ -10,7 +10,7 @@ class Job(models.Model):
     employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_jobs')
     title = models.CharField(max_length=200)
     description = models.TextField()
-    companyName = models.CharField(max_length=200)
+    companyName = models.CharField(max_length=200 , blank=True)
     # yearsOfExperience = models.()
     # salary = models.IntegerField()
     requirements = models.TextField()

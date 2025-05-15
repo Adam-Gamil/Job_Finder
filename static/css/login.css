@@ -86,6 +86,9 @@
     text-decoration: none;
     color: #fff;
 }
+.content a:hover{
+    text-decoration: underline;
+}
 .content .btn{
     background: transparent;
     border:none;

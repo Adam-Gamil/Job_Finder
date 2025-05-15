@@ -7,7 +7,7 @@
 
 .content{
     width: 400px;
-    height: 410px;
+    height: auto;
     border-radius: 10px;
     background-color: #0073e67d;
     backdrop-filter: blur(10px);
@@ -85,6 +85,10 @@
     margin-right: 0px;
     text-decoration: none;
     color: #fff;
+}
+.content a:hover{
+    color: #fff;
+    text-decoration: underline;
 }
 .content .btn{
     background: transparent;

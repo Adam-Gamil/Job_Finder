@@ -9,28 +9,36 @@
     {% block content %}
         <form class="signup-form">
             <div class="content anim">
+                {% csrf_token %}
                 <h1>Sign up</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Username" required id="username">
-                    <i class="bx bxs-user"></i>
-                </div>
-                <div class="input-box">
-                    <input type="text" placeholder="Email" required id="email">
-                    <i class='bx bxs-envelope'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" required id="password">
-                    <i class="bx bxs-lock-alt"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Confirm Password" required id="confirmPassword">
-                    <i class="bx bxs-lock-alt"></i>
-                </div>
-                <div class="input-box">
-                    <input type="text" placeholder="Company Name" id="companyName" required>
-                    <i class='bx bxs-building-house'></i>
-                </div>
-                <button type="submit" class = "btn" id="signup-btn">Sign up</button>
+            <div class="input-box">
+                <i class="bx bxs-user"></i>
+                {{ form.username.errors }}
+                {{ form.username }}
+            </div>
+            <div class="input-box">
+                <i class='bx bxs-envelope'></i>
+                {{ form.email.errors }}
+                {{ form.email }}
+            </div>
+            <div class="input-box">
+                <i class="bx bxs-lock-alt"></i>
+                {{ form.password1.errors }}
+                {{ form.password1 }}
+            </div>
+            <div class="input-box">
+                <i class="bx bxs-lock-alt"></i>
+                {{ form.password2.errors }}
+                {{ form.password2 }}
+            </div>
+            <div class="input-box">
+                <i class="bx bxs-user"></i>
+                {{ form.company_name.errors }}
+                {{ form.company_name }}
+            </div>
+            <button type="submit" class = "btn" id="signup-btn">Sign up</button>
+            <p>Already have an account?</p>
+            <a href="{% url 'login' %}" id="login_btn">Log in</a>
             </div>
         </form>
         <!-- <div class="footer">
