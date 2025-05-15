@@ -7,33 +7,33 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     {% endblock styles %}
     {% block content %}
-        <form class="signup-form">
+        <form class="signup-form" method="POST" action="">
             <div class="content anim">
                 {% csrf_token %}
                 <h1>Sign up</h1>
+                {{ form.username.errors }}
             <div class="input-box">
                 <i class="bx bxs-user"></i>
-                {{ form.username.errors }}
                 {{ form.username }}
             </div>
+            {{ form.email.errors }}
             <div class="input-box">
                 <i class='bx bxs-envelope'></i>
-                {{ form.email.errors }}
                 {{ form.email }}
             </div>
+            {{ form.password1.errors }}
             <div class="input-box">
                 <i class="bx bxs-lock-alt"></i>
-                {{ form.password1.errors }}
                 {{ form.password1 }}
             </div>
+            {{ form.password2.errors }}
             <div class="input-box">
                 <i class="bx bxs-lock-alt"></i>
-                {{ form.password2.errors }}
                 {{ form.password2 }}
             </div>
+            {{ form.company_name.errors }}
             <div class="input-box">
                 <i class="bx bxs-user"></i>
-                {{ form.company_name.errors }}
                 {{ form.company_name }}
             </div>
             <button type="submit" class = "btn" id="signup-btn">Sign up</button>
@@ -45,8 +45,3 @@
             <p>2025 Job Search Website</p>
         </div> -->
     {% endblock content %}
-    {% block scripts %}
-    <script type="module" src="../js/main.js"></script>
-    <script type="module" src="../js/signupAdmin.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {% endblock scripts %}

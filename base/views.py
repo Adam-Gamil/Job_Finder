@@ -12,7 +12,7 @@ def home(request):
 
 def loginPage(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
         try:
             user = User.objects.get(username=username)
@@ -49,6 +49,8 @@ def signupAdminPage(request):
             if not user.company_name:
                 messages.error(request, "Company name is required for admin users.")
                 return render(request, 'base/signupAdmin.html', {'form': form})
+            # username = form.cleaned_data.get('username').lower()
+            # user.username = username
             user.save()
             return redirect('login')
         else:
@@ -61,6 +63,8 @@ def signupUserPage(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            username = form.cleaned_data.get('username').lower()
+            user.username = username
             user.save()
             return redirect('login')
         else:

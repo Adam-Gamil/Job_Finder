@@ -5,12 +5,13 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     company_name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(unique=True)
+    REQUIRED_FIELDS = ['email']
 
 class Job(models.Model):
     employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_jobs')
     title = models.CharField(max_length=200)
     description = models.TextField()
-    companyName = models.CharField(max_length=200 , blank=True)
     # yearsOfExperience = models.()
     # salary = models.IntegerField()
     requirements = models.TextField()

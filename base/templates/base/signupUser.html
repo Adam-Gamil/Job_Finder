@@ -31,24 +31,24 @@
             {% csrf_token %}
             <div class="content anim">
                 <h1>Sign up</h1>
+                {{ form.username.errors }}
                 <div class="input-box">
                     <i class="bx bxs-user"></i>
-                    {{ form.username.errors }}
                     {{ form.username }}
                 </div>
+                {{ form.email.errors }}
                 <div class="input-box">
                     <i class='bx bxs-envelope'></i>
-                    {{ form.email.errors }}
                     {{ form.email }}
                 </div>
+                {{ form.password1.errors }}
                 <div class="input-box">
                     <i class="bx bxs-lock-alt"></i>
-                    {{ form.password1.errors }}
                     {{ form.password1 }}
                 </div>
+                {{ form.password2.errors }}
                 <div class="input-box">
                     <i class="bx bxs-lock-alt"></i>
-                    {{ form.password2.errors }}
                     {{ form.password2 }}
                 </div>
                 <button type="submit" class = "btn" id="signup-btn">Sign up</button>
