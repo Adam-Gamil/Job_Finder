@@ -10,4 +10,8 @@ urlpatterns = [
     path('signupUser/', views.signupUserPage, name='signupUser'),
     path('adminDashboard/', views.adminPage, name='adminPage'),
     path('userDashboard/', views.userPage, name='userPage'),
+    path('searchJob/', views.searchJob, name='searchJob'),
+    path('viewAllJobs/', views.viewAllJobs, name='viewAllJobs'),
+    path('viewAppliedJobs/', views.viewAppliedJobs, name='viewAppliedJobs'),
+    
 ]

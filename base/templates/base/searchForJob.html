@@ -1,73 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search for a job</title>
-    <link rel="stylesheet" href="../css/searchForJob.css">
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/viewAllJobs.css">
-</head>
-<body>
-    <div class="hero">
-        <nav>
-            <img src="../images/logo.png" alt="Logo" class="logo" onclick="window.location.href='userDashboard.html'">
-            <ul>
-                <li><a href="userDashboard.html">Home</a></li>
-                <li><a href="searchForJob.html">Search for a job</a></li>
-                <li><a href="viewAllJobs.html">View list of available jobs</a></li>
-                <li><a href="viewAppliedJobs.html">View list of applied jobs</a></li>
-             </ul>
-             
-        </nav>
+{% extends 'main.html' %}
+{% load static %}
 
+{% block title %}Search for a job{% endblock title %}
 
-        <div class="searchNav">
-            <div class="search-container">
-                <!-- <input type="text" class="search-box" placeholder="Search for Companies..." id="searchBox" onkeyup="getSuggestions()" autocomplete="off"> -->
-                <input type="text" class="search-box" placeholder="Search for Companies..." id="searchBox" onkeyup="getSuggestions()" autocomplete="off">
-                <div id="suggestions"></div>
-                
-                <div class="filter-group">
-                    <div class="filter-select">
-                        <label for="job-title">Job Title</label>
-                        <select id="job-title" class="filter-dropdown">
-                            <option value="" disabled selected>Select Job Title</option>
-                            <option value="Software Engineer">Software Engineer</option>
-                            <option value="Back End Developer">Back End Developer</option>
-                            <option value="Front End Developer">Front End Developer</option>
-                            <option value="Data Scientist">Data Scientist</option>
-                            <option value="Full Stack Developer">Full Stack Developer</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-select">
-                        <label for="experience">Experience</label>
-                        <select id="experience" class="filter-dropdown">
-                            <option value="" disabled selected>Select Experience</option>
-                            <option value="0-1 years experience">0-1 year</option>
-                            <option value="1-3 years experience">1-3 years</option>
-                            <option value="3-7 years experience">3-7 years</option>
-                            <option value="7-15 years experience">7-15 years</option>
-                            <option value="15+ years experience">15+ years</option>
-                        </select>
-                    </div>
-                    
-                    <button class="search-button"  id="searchBtn">
-                        <i class="search-icon">🔍</i> Search
-                    </button>
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/searchForJob.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/viewAllJobs.css' %}">
+{% endblock styles %}
+
+{% block content %}
+    <div class="searchNav">
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search for Companies..." id="searchBox" onkeyup="getSuggestions()" autocomplete="off">
+            <div id="suggestions"></div>
+            
+            <div class="filter-group">
+                <div class="filter-select">
+                    <label for="job-title">Job Title</label>
+                    <select id="job-title" class="filter-dropdown">
+                        <option value="" disabled selected>Select Job Title</option>
+                        <option value="Software Engineer">Software Engineer</option>
+                        <option value="Back End Developer">Back End Developer</option>
+                        <option value="Front End Developer">Front End Developer</option>
+                        <option value="Data Scientist">Data Scientist</option>
+                        <option value="Full Stack Developer">Full Stack Developer</option>
+                    </select>
                 </div>
+                
+                <div class="filter-select">
+                    <label for="experience">Experience</label>
+                    <select id="experience" class="filter-dropdown">
+                        <option value="" disabled selected>Select Experience</option>
+                        <option value="0-1 years experience">0-1 year</option>
+                        <option value="1-3 years experience">1-3 years</option>
+                        <option value="3-7 years experience">3-7 years</option>
+                        <option value="7-15 years experience">7-15 years</option>
+                        <option value="15+ years experience">15+ years</option>
+                    </select>
+                </div>
+                
+                <button class="search-button" id="searchBtn">
+                    <i class="search-icon">🔍</i> Search
+                </button>
             </div>
         </div>
-        <div id="jobs-container" class="jobs-container"></div>
-
-
-        <!-- <div class="footer">
-            <p>2025 Job Search Website</p>
-        </div> -->
     </div>
-    <script type="module" src="../js/searchForJob.js"></script>
-    <script type="module" src="../js/main.js"></script>
+    <div id="jobs-container" class="jobs-container"></div>
+{% endblock content %}
+
+{% block scripts %}
+    <script type="module" src="{% static 'js/searchForJob.js' %}"></script>
+    <script type="module" src="{% static 'js/main.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</body>
-</html>
+{% endblock scripts %}

@@ -1,11 +1,13 @@
 {% load static %}
 <nav>
-    <img src="../images/logo.png" alt="Logo" class="logo" onclick="window.location.href='userDashboard.html'">
+    <a href="{% url 'userPage' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+    </a>
     <ul>
-        <li><a href="userDashboard.html">Home</a></li>
-        <li><a href="searchForJob.html">Search for a job</a></li>
-        <li><a href="viewAllJobs.html">View list of available jobs</a></li>
-        <li><a href="viewAppliedJobs.html">View list of applied jobs</a></li>
+        <li><a href="{% url 'userPage' %}">Home</a></li>
+        <li><a href="{% url 'searchJob' %}">Search for a job</a></li>
+        <li><a href="{% url 'viewAllJobs' %}">View list of available jobs</a></li>
+        <li><a href="{% url 'viewAppliedJobs' %}">View list of applied jobs</a></li>
         <li><a href="{% url 'logout' %}">Log out</a></li>
     </ul>
 </nav>

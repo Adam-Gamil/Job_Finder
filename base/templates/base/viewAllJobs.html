@@ -1,37 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View all jobs</title>
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/viewAllJobs.css">
-</head>
-<body>
-    <div class="hero">
-        <nav>
-            <img src="../images/logo.png" alt="Logo" class="logo" onclick="window.location.href='userDashboard.html'">
-            <ul>
-                <li><a href="userDashboard.html">Home</a></li>
-                <li><a href="searchForJob.html">Search for a job</a></li>
-                <li><a href="viewAllJobs.html">View list of available jobs</a></li>
-                <li><a href="viewAppliedJobs.html">View list of applied jobs</a></li>
-            </ul>
-        </nav>
+{% extends "main.html" %}
+{% load static %}
 
-        <div id="jobs-container">
-            <h2>View All Jobs</h2>
-        </div>
+{% block title %}View All Jobs{% endblock %}
 
-        <!-- <div class="footer">
-            <p>2025 Job Search Website</p>
-        </div> -->
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/viewAllJobs.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div id="jobs-container">
+        <h2>View All Jobs</h2>
+        {% for job in jobs %}
+            <div class="job-card">
+                <h3>{{ job.title }}</h3>
+                <p>{{ job.description }}</p>
+                <p><strong>Location:</strong> {{ job.location }}</p>
+                <p><strong>Posted on:</strong> {{ job.posted_date }}</p>
+            </div>
+        {% empty %}
+            <p>No jobs available at the moment.</p>
+        {% endfor %}
     </div>
-    
-    <script type="module" src="../js/viewAllJobs.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</div>
+{% endblock %}
 
-
-   
-</body>
-</html>
+{% block scripts %}
+<script type="module" src="{% static 'js/viewAllJobs.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}

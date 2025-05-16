@@ -78,3 +78,18 @@ def adminPage(request):
 @login_required(login_url='login')
 def userPage(request):
     return render(request, 'base/userDashboard.html')
+
+
+@login_required(login_url='login')
+def searchJob(request):
+    return render(request, 'base/searchForJob.html')
+
+@login_required(login_url='login')
+def viewAllJobs(request):
+    jobs = Job.objects.all()
+    return render(request, 'base/viewAllJobs.html', {'jobs': jobs})
+
+@login_required(login_url='login')
+def viewAppliedJobs(request):
+    applied_jobs = JobApplication.objects.filter(user=request.user)
+    return render(request, 'base/viewAppliedJobs.html', {'applied_jobs': applied_jobs})
