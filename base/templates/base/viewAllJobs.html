@@ -17,7 +17,8 @@
                 <h3>{{ job.title }}</h3>
                 <p>{{ job.description }}</p>
                 <p><strong>Location:</strong> {{ job.location }}</p>
-                <p><strong>Posted on:</strong> {{ job.posted_date }}</p>
+                <p><strong>Posted on:</strong> {{ job.datePosted }}</p>
+                <p><strong>Posted by:</strong> {{job.employer.company_name}}</p>
             </div>
         {% empty %}
             <p>No jobs available at the moment.</p>
@@ -27,6 +28,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="module" src="{% static 'js/viewAllJobs.js' %}"></script>
+<!-- <script type="module" src="{% static 'js/viewAllJobs.js' %}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% endblock %}
