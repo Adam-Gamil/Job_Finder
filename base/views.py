@@ -102,7 +102,7 @@ def viewAppliedJobs(request):
 def apply_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     
-    if Job.status == 'Closed':
+    if job.status == 'Closed':
         messages.error(request, 'This job is no longer available.')
         return redirect('viewAllJobs')
     # Check if user already applied

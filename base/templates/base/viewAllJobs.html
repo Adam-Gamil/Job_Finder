@@ -33,7 +33,12 @@
                         <p><strong>status:</strong> {{ job.status }}</p>
                         <p><strong>Posted on:</strong> {{ job.datePosted }}</p>
                     </div>
-                    <a href="{% url 'apply_job' job.id %}" class="apply-btn">Apply Now</a>
+                    {% if job.status == "Open" %}
+                        <a href="{% url 'apply_job' job.id %}" class="apply-btn">Apply Now</a>
+                    {% else %}
+                        <p class="closed-message">This job is no longer accepting applications.</p>
+                        <a href="{% url 'apply_job' job.id %}" class="apply-btn unclickable">Apply Now</a>
+                    {% endif %}
                 </div>
             </div>
         {% empty %}
