@@ -77,6 +77,99 @@ def adminPage(request):
     return render(request, 'base/adminDashboard.html')
 
 @login_required(login_url='login')
+def addJobAdmin(request):
+    if request.method == 'POST':
+        title = request.POST.get('job-title')
+        salary = request.POST.get('job-salary')
+        experience = request.POST.get('years_exp')
+        status = request.POST.get('status')
+        requirements = request.POST.get('Requirements')
+        description = request.POST.get('description')
+        location = request.POST.get('Location')
+
+        if title and salary and experience and status and requirements and description and location:
+            # Parse salary (e.g., "20000$-40000$")
+            try:
+                salary_range = salary.replace('$', '').split('-')
+                if len(salary_range) == 2:
+                    min_salary = int(salary_range[0])
+                    max_salary = int(salary_range[1])
+                else:
+                    min_salary = max_salary = int(salary_range[0].replace('+', ''))
+            except:
+                messages.error(request, "Invalid salary format.")
+                return render(request, 'base/addJobOpportunity.html')
+
+            # Parse experience (e.g., "1-3 years experience")
+            try:
+                exp_range = experience.split()[0].split('-')
+                if len(exp_range) == 2:
+                    min_exp = int(exp_range[0])
+                    max_exp = int(exp_range[1])
+                else:
+                    min_exp = max_exp = int(exp_range[0].replace('+', ''))
+            except:
+                messages.error(request, "Invalid experience format.")
+                return render(request, 'base/addJobOpportunity.html')
+
+            Job.objects.create(
+                employer=request.user,
+                title=title,
+                description=description,
+                min_experience=min_exp,
+                max_experience=max_exp,
+                min_salary=min_salary,
+                max_salary=max_salary,
+                requirements=requirements,
+                location=location,
+                status=status
+            )
+            messages.success(request, "Job added successfully.")
+            return redirect('viewCreatedJobs')
+        else:
+            messages.error(request, "Please fill out all fields.")
+
+    return render(request, 'base/addJobOpportunity.html')
+
+@login_required(login_url='login')
+def viewCreatedJobs(request):
+    jobs = Job.objects.filter(employer=request.user).order_by('-datePosted')
+    return render(request, 'base/viewCreatedJobs.html', {'jobs': jobs})
+
+
+@login_required(login_url='login')
+def selectAndEditJobs(request):
+    # Get jobs posted by the logged-in user
+    jobs = Job.objects.filter(employer=request.user).order_by('-datePosted')
+    selected_job = None
+
+    job_id = request.GET.get('job_id')
+
+    if job_id:
+        selected_job = get_object_or_404(Job, id=job_id, employer=request.user)
+
+        if request.method == 'POST':
+            # Update the job with submitted data from form
+            selected_job.title = request.POST.get('title')
+            selected_job.min_salary = int(request.POST.get('min_salary'))
+            selected_job.max_salary = int(request.POST.get('max_salary'))
+            selected_job.min_experience = int(request.POST.get('min_experience'))
+            selected_job.max_experience = int(request.POST.get('max_experience'))
+            selected_job.status = request.POST.get('status')
+            selected_job.requirements = request.POST.get('requirements')
+            selected_job.description = request.POST.get('description')
+            selected_job.location = request.POST.get('location')
+
+            selected_job.save()
+            messages.success(request, 'Job updated successfully!')
+            # Redirect back to the same edit page to see changes
+            return redirect(f"{request.path}?job_id={selected_job.id}")
+
+    return render(request, 'base/selectAndEditJobs.html', {'jobs': jobs, 'selected_job': selected_job})
+
+
+
+@login_required(login_url='login')
 def userPage(request):
     return render(request, 'base/userDashboard.html')
 

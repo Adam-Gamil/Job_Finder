@@ -1,11 +1,11 @@
 {% load static %}
 <nav>
-    <a href='adminDashboard.html'><img src="{% static 'images/logo.png' %}" alt="Logo" class="logo"/></a>
+    <a href="{% url 'adminPage' %}"><img src="{% static 'images/logo.png' %}" alt="Logo" class="logo"/></a>
     <ul>
-        <li><a href="adminDashboard.html">Home</a></li>
-        <li><a href="addJobOpportunity.html">Add Job</a></li>
-        <li><a href="viewCreatedJobs.html"> View Created Jobs</a></li>
-        <li><a href="selectAndEditJobs.html">Select And Edit Jobs</a></li>
+        <li><a href="{% url 'adminPage' %}">Home</a></li>
+        <li><a href="{% url 'addJobAdmin' %}">Add Job</a></li>
+        <li><a href="{% url 'viewCreatedJobs' %}"> View Created Jobs</a></li>
+        <li><a href="{% url 'selectAndEditJobs'%}">Select And Edit Jobs</a></li>
         <li><a href="{% url 'logout' %}">Log out</a></li>
      </ul>
      

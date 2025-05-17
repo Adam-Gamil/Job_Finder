@@ -1,38 +1,94 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Edit Jobs</title>
-    <link rel="stylesheet" href="../css/selectAndEditJobs.css">
-    <link rel="stylesheet" href="../css/global.css">
-
+    <link rel="stylesheet" href="{% static 'css/selectAndEditJobs.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
 </head>
 <body>
-    
+
     <div class="hero">
 
         <nav>
-            <img src="../images/logo.png" alt="Logo" class="logo" onclick="window.location.href='adminDashboard.html'">
+            <a href="{% url 'adminPage' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo" />
+            </a>
             <ul>
-                <li><a href="adminDashboard.html">Home</a></li>
-                <li><a href="addJobOpportunity.html">Add Job</a></li>
-                <li><a href="viewCreatedJobs.html"> View Created Jobs</a></li>
-                <li><a href="selectAndEditJobs.html">Select And Edit Jobs</a></li>
-             </ul>
-             
+                <li><a href="{% url 'adminPage' %}">Home</a></li>
+                <li><a href="{% url 'addJobAdmin' %}">Add Job</a></li>
+                <li><a href="{% url 'viewCreatedJobs' %}">View Created Jobs</a></li>
+                <li><a href="{% url 'selectAndEditJobs' %}">Select And Edit Jobs</a></li>
+            </ul>
         </nav>
 
-        
         <div class="jobs-container">
             <h2>View All Jobs</h2>
-            
-            
+
+            {% if jobs %}
+                <ul class="job-list">
+                    {% for job in jobs %}
+                        <li class="job-item">
+                            <h3>{{ job.title }}</h3>
+                            <p><strong>Status:</strong> {{ job.status }}</p>
+                            <p><strong>Location:</strong> {{ job.location }}</p>
+                            <p><strong>Salary:</strong> ${{ job.min_salary }} - ${{ job.max_salary }}</p>
+                            <p><strong>Experience:</strong> {{ job.min_experience }} - {{ job.max_experience }} years</p>
+                            <p><strong>Posted On:</strong> {{ job.datePosted|date:"M d, Y" }}</p>
+
+                            <a href="?job_id={{ job.id }}" class="btn-edit">Edit</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't posted any jobs yet.</p>
+            {% endif %}
+
+            {% if selected_job %}
+                <hr />
+                <h3>Edit Job: {{ selected_job.title }}</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" value="{{ selected_job.title }}" required />
+
+                    <label for="min_salary">Min Salary</label>
+                    <input type="number" id="min_salary" name="min_salary" value="{{ selected_job.min_salary }}" required />
+
+                    <label for="max_salary">Max Salary</label>
+                    <input type="number" id="max_salary" name="max_salary" value="{{ selected_job.max_salary }}" required />
+
+                    <label for="min_experience">Min Experience (years)</label>
+                    <input type="number" id="min_experience" name="min_experience" value="{{ selected_job.min_experience }}" required />
+
+                    <label for="max_experience">Max Experience (years)</label>
+                    <input type="number" id="max_experience" name="max_experience" value="{{ selected_job.max_experience }}" required />
+
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="Open" {% if selected_job.status == "Open" %}selected{% endif %}>Open</option>
+                        <option value="Closed" {% if selected_job.status == "Closed" %}selected{% endif %}>Closed</option>
+                    </select>
+
+                    <label for="requirements">Requirements</label>
+                    <textarea id="requirements" name="requirements" rows="4">{{ selected_job.requirements }}</textarea>
+
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4">{{ selected_job.description }}</textarea>
+
+                    <label for="location">Location</label>
+                    <textarea id="location" name="location" rows="2">{{ selected_job.location }}</textarea>
+
+                    <button type="submit">Update Job</button>
+                </form>
+            {% endif %}
         </div>
-        
+
     </div>
-    <script type="module" src="../js/selectAndEditJobs.js"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-            
 </body>
 </html>
