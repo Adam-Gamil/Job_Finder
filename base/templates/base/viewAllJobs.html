@@ -14,20 +14,42 @@
         <h2>View All Jobs</h2>
         {% for job in jobs %}
             <div class="job-card">
-                <h3>{{ job.title }}</h3>
-                <p>{{ job.description }}</p>
-                <p><strong>Location:</strong> {{ job.location }}</p>
-                <p><strong>Posted on:</strong> {{ job.datePosted }}</p>
-                <p><strong>Posted by:</strong> {{job.employer.company_name}}</p>
+                <div class="job-basic-info">
+                    <h3 class="company-name">{{ job.employer.company_name }}</h3>
+                    <p class="job-title">{{ job.title }}</p>
+                    <p class="job-experience">{{ job.years_of_experience }} experience</p>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDetails('{{ job.id }}')">
+                    View Details <span id="arrow-{{ job.id }}" class="arrow">▼</span>
+                </button>
+
+                <div id="details-{{ job.id }}" class="job-details">
+                    <div class="details-content">
+                        <p><strong>Salary:</strong> {{ job.salary }}</p>
+                        <p><strong>Requirements:</strong> {{ job.requirements }}</p>
+                        <p><strong>Location:</strong> {{ job.location }}</p>
+                        <p><strong>Description:</strong> {{ job.description }}</p>
+                        <p><strong>status:</strong> {{ job.status }}</p>
+                        <p><strong>Posted on:</strong> {{ job.datePosted }}</p>
+                    </div>
+                    <a href="{% url 'apply_job' job.id %}" class="apply-btn">Apply Now</a>
+                </div>
             </div>
         {% empty %}
-            <p>No jobs available at the moment.</p>
+            <p>No jobs available or you've applied to all jobs.</p>
         {% endfor %}
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<!-- <script type="module" src="{% static 'js/viewAllJobs.js' %}"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function toggleDetails(jobId) {
+        const details = document.getElementById(`details-${jobId}`);
+        const arrow = document.getElementById(`arrow-${jobId}`);
+        details.classList.toggle('active');
+        arrow.textContent = details.classList.contains('active') ? '▲' : '▼';
+    }
+</script>
 {% endblock %}

@@ -4,6 +4,7 @@ from .models import User,Job, JobApplication
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def home(request):
@@ -86,10 +87,39 @@ def searchJob(request):
 
 @login_required(login_url='login')
 def viewAllJobs(request):
-    jobs = Job.objects.all()
-    return render(request, 'base/viewAllJobs.html', {'jobs': jobs})
+    all_jobs = Job.objects.all()
+    applied_jobs = JobApplication.objects.filter(user=request.user).values_list('job_id', flat=True)
+    unapplied_jobs = all_jobs.exclude(id__in=applied_jobs)
+    return render(request, 'base/viewAllJobs.html', {'jobs': unapplied_jobs})
 
 @login_required(login_url='login')
 def viewAppliedJobs(request):
     applied_jobs = JobApplication.objects.filter(user=request.user)
     return render(request, 'base/viewAppliedJobs.html', {'applied_jobs': applied_jobs})
+
+
+@login_required(login_url='login')
+def apply_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    
+    if Job.status == 'Closed':
+        messages.error(request, 'This job is no longer available.')
+        return redirect('viewAllJobs')
+    # Check if user already applied
+    if JobApplication.objects.filter(user=request.user, job=job).exists():
+        messages.warning(request, 'You have already applied to this job!')
+    else:
+        # Create new application
+        JobApplication.objects.create(user=request.user, job=job)
+        messages.success(request, 'Application submitted successfully!')
+    
+    return redirect('viewAllJobs')
+
+
+@login_required(login_url='login')
+def withdraw_application(request, application_id):
+    application = get_object_or_404(JobApplication, id=application_id, user=request.user)
+    if request.method == 'POST':
+        application.delete()
+        messages.success(request, 'Application withdrawn successfully!')
+    return redirect('viewAppliedJobs')

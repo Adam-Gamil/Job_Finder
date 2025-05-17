@@ -12,6 +12,7 @@
 }
 
 .job-card {
+    background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px;
@@ -79,7 +80,7 @@
 }
 
 .details-checkbox:checked ~ .job-details {
-    max-height: 500px; /* Adjust based on your content */
+    max-height: 500px;
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px dashed #ddd;
@@ -98,22 +99,11 @@
     line-height: 1.5;
 }
 
-.apply-btn {
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
+.withdraw-form {
+    margin-top: 15px;
 }
 
-.apply-btn:hover {
-    background-color: #27ae60;
-}
-
-.withdraw-btn{
+.withdraw-btn {
     background-color: #e74c3c;
     color: white;
     border: none;
@@ -122,8 +112,26 @@
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
+    width: 100%;
 }
 
 .withdraw-btn:hover {
     background-color: #c0392b;
+}
+
+.no-jobs {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #jobs-container {
+        padding: 10px;
+    }
+    .job-card {
+        padding: 15px;
+    }
 }

@@ -8,7 +8,6 @@
 {% endblock styles %}
 
 {% block content %}
-
 <div class="hero">
     <div id="jobs-container">
         <h2>View Applied Jobs</h2>
@@ -16,21 +15,60 @@
         {% if applied_jobs %}
             {% for application in applied_jobs %}
                 <div class="job-card">
-                    <h3>{{ application.job.title }}</h3>
-                    <p><strong>Description:</strong> {{ application.job.description }}</p>
-                    <p><strong>Location:</strong> {{ application.job.location }}</p>
-                    <p><strong>Requirements:</strong> {{ application.job.requirements }}</p>
+                    <div class="job-basic-info">
+                        <h3 class="company-name">{{ application.job.employer.company_name }}</h3>
+                        <p class="job-title">{{ application.job.title }}</p>
+                        <p class="job-experience">{{ application.job.years_of_experience }} experience</p>
+                    </div>
+
+                    <input type="checkbox" id="toggle-{{ application.id }}" class="details-checkbox">
+                    <label for="toggle-{{ application.id }}" class="view-details-btn">
+                        View Details <span class="arrow">▼</span>
+                    </label>
+
+                    <div class="job-details">
+                        <div class="details-content">
+                            <p><strong>Salary:</strong> {{ application.job.salary }}</p>
+                            <p><strong>Requirements:</strong> {{ application.job.requirements }}</p>
+                            <p><strong>Location:</strong> {{ application.job.location }}</p>
+                            <p><strong>Description:</strong> {{ application.job.description }}</p>
+                            <p><strong>Applied on:</strong> {{ application.applied_at|date:"F d, Y" }}</p>
+                        </div>
+                        <form method="post" action="{% url 'withdraw_application' application.id %}" class="withdraw-form">
+                            {% csrf_token %}
+                            <button type="submit" class="withdraw-btn">Withdraw Application</button>
+                        </form>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}
-            <p>You haven't applied to any jobs yet.</p>
+            <p class="no-jobs">You haven't applied to any jobs yet.</p>
         {% endif %}
     </div>
 </div>
-
 {% endblock content %}
 
 {% block scripts %}
-<script type="module" src="{% static 'js/viewAppliedJobs.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Confirm withdrawal
+    document.querySelectorAll('.withdraw-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e74c3c',
+                cancelButtonColor: '#7f8c8d',
+                confirmButtonText: 'Yes, withdraw it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+        });
+    });
+</script>
 {% endblock scripts %}
