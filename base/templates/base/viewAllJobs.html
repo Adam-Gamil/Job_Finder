@@ -37,7 +37,7 @@
                         <a href="{% url 'apply_job' job.id %}" class="apply-btn">Apply Now</a>
                     {% else %}
                         <p class="closed-message">This job is no longer accepting applications.</p>
-                        <a href="{% url 'apply_job' job.id %}" class="apply-btn unclickable">Apply Now</a>
+                        <a href="{% url 'apply_job' job.id %}" class="apply-btn unclickable" onclick="applyForJob()">Apply Now</a>
                     {% endif %}
                 </div>
             </div>
@@ -49,12 +49,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    function toggleDetails(jobId) {
-        const details = document.getElementById(`details-${jobId}`);
-        const arrow = document.getElementById(`arrow-${jobId}`);
-        details.classList.toggle('active');
-        arrow.textContent = details.classList.contains('active') ? '▲' : '▼';
-    }
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/viewAllJobs.js' %}"></script>
 {% endblock %}

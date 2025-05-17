@@ -5,6 +5,12 @@
     font-family: Arial, sans-serif;
 }
 
+#jobs-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 .job-card {
     background: #e1f0fc;
     padding: 20px;
