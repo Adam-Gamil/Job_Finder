@@ -1,43 +1,17 @@
+{% extends "main.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Job Opportunity</title>
+{% block title %}Add Jobs{% endblock %}
+
+
+
+    {% block styles %}
     <link rel="stylesheet" href="{% static 'css/addJobOpportunity.css' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
-</head>
-<body>
+    {% endblock styles %}
 
-    <div class="hero">
-
-        <nav>
-            <a href="{% url 'adminPage' %}">
-                <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
-            </a>
-            
-
-
-
-            <ul>
-                <li><a href="{% url 'adminPage' %}">Home</a></li>
-                <li><a href="{% url 'addJobAdmin' %}">Add Job</a></li>
-                <li><a href="{% url 'viewCreatedJobs' %}">View Created Jobs</a></li>
-                <li><a href="{% url 'selectAndEditJobs' %}">Select and Edit Jobs</a></li>
-            </ul>
-        </nav>
-
+    {% block content %}
         <div class="job-opport">
             <h1>About The Job</h1>
-
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li class="{{ message.tags }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
 
             <form method="POST">
                 {% csrf_token %}
@@ -108,7 +82,4 @@
                 </div>
             </form>
         </div>
-    </div>
-
-</body>
-</html>
+    {% endblock content %}
