@@ -216,3 +216,55 @@ def withdraw_application(request, application_id):
         application.delete()
         messages.success(request, 'Application withdrawn successfully!')
     return redirect('viewAppliedJobs')
+
+
+@login_required(login_url='login')
+def searchJob(request):
+    # Get filter parameters from request
+    company_name = request.GET.get('company', '')
+    job_title = request.GET.get('title', '')
+    min_exp = int(request.GET.get('min_exp', 0))
+    max_exp = int(request.GET.get('max_exp', 99))
+    min_salary = int(request.GET.get('min_salary', 0))
+    max_salary = int(request.GET.get('max_salary', 999999))
+
+    # Start with base queryset
+    jobs = Job.objects.filter(
+        employer__company_name__icontains=company_name,
+        title__icontains=job_title,
+    )
+
+    # Filter by experience range (using min_experience/max_experience fields)
+    jobs = jobs.filter(
+        min_experience__gte=min_exp,
+        max_experience__lte=max_exp
+    )
+
+    # Filter by salary range (using min_salary/max_salary fields)
+    jobs = jobs.filter(
+        min_salary__gte=min_salary,
+        max_salary__lte=max_salary
+    )
+
+    # Exclude already applied jobs
+    applied_jobs = JobApplication.objects.filter(user=request.user).values_list('job_id', flat=True)
+    jobs = jobs.exclude(id__in=applied_jobs)
+
+    unique_titles = sorted(set(Job.objects.values_list('title', flat=True)))
+
+    context = {
+        'jobs': jobs,
+        'unique_titles': unique_titles,
+    }
+
+    return render(request, 'base/searchForJob.html', context)
+
+def salary_in_range(salary_str, min_salary, max_salary):
+    # Helper function to parse salary string and check range
+    try:
+        # Extract numbers from string like "$90,000 - $110,000"
+        numbers = [int(''.join(filter(str.isdigit, s))) for s in salary_str.split('-')]
+        avg_salary = sum(numbers) / len(numbers)
+        return min_salary <= avg_salary <= max_salary
+    except:
+        return True

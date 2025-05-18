@@ -1,186 +1,71 @@
-document.getElementById("searchBox").addEventListener("keyup", getSuggestions);
-import { AllJobs, session, loadSessionFromLocalStorage } from "./main.js";
-//import* as main from "./main.js";
-
-function getSuggestions() {
-  console.log("getSuggestions called");
-  const query = document.getElementById("searchBox").value;
-  const suggestionsContainer = document.getElementById("suggestions");
-
-  if (query.length === 0) {
-    suggestionsContainer.innerHTML = "";
-    return;
-  }
-
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", "../data/words.txt", true);
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      const words = xhr.responseText.split('\n');
-      const matches = words.filter(word => word.toLowerCase().startsWith(query.toLowerCase()));
-
-      suggestionsContainer.innerHTML = "";
-
-      matches.forEach(word => {
-        const div = document.createElement("div");
-        div.classList.add("suggestion-item");
-        div.textContent = word;
-
-        div.onclick = function () {
-          document.getElementById("searchBox").value = word;
-          suggestionsContainer.innerHTML = "";
-        };
-
-        suggestionsContainer.appendChild(div);
-      });
-
-      if (matches.length === 0) {
-        suggestionsContainer.innerHTML = "<div class='suggestion-item'>No match</div>";
-      }
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.getElementById('searchBtn');
+    const jobsContainer = document.getElementById('jobs-container');
+    const searchForm = document.querySelector('.search-form-container');
+    
+    // Function to load jobs (used by both initial load and search)
+    function loadJobs(params = '') {
+        fetch(`/searchJob/?${params}`)
+            .then(response => response.text())
+            .then(html => {
+                // Extract just the job cards from the response
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html;
+                const jobCards = tempDiv.querySelector('#jobs-container').innerHTML;
+                
+                // Only update the jobs container, not the whole page
+                jobsContainer.innerHTML = jobCards;
+                
+                // Reattach event listeners to new elements
+                attachToggleListeners();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                jobsContainer.innerHTML = '<p>Error loading jobs. Please try again.</p>';
+            });
     }
-  };
-  xhr.send();
+
+    // Attach toggle listeners to job details buttons
+    function attachToggleListeners() {
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const jobId = this.getAttribute('data-job-id');
+                toggleDetails(jobId);
+            });
+        });
+    }
+
+    // Search button handler
+    searchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const companySearch = document.getElementById('searchBox').value;
+        const jobTitle = document.getElementById('job-title').value;
+        const minExp = document.getElementById('min-experience').value;
+        const maxExp = document.getElementById('max-experience').value;
+        const minSalary = document.getElementById('min-salary').value;
+        const maxSalary = document.getElementById('max-salary').value;
+        
+        // Build query string
+        const params = new URLSearchParams();
+        if (companySearch) params.append('company', companySearch);
+        if (jobTitle) params.append('title', jobTitle);
+        params.append('min_exp', minExp);
+        params.append('max_exp', maxExp);
+        params.append('min_salary', minSalary);
+        params.append('max_salary', maxSalary);
+        
+        loadJobs(params.toString());
+    });
+    
+    // Initial load
+    loadJobs();
+});
+
+// Toggle function remains the same
+function toggleDetails(jobId) {
+    const details = document.getElementById(`details-${jobId}`);
+    const arrow = document.getElementById(`arrow-${jobId}`);
+    details.classList.toggle('active');
+    arrow.textContent = details.classList.contains('active') ? '▲' : '▼';
 }
-
-
-
-
-
-document.getElementById("searchBtn").addEventListener("click", function () {
-
-  const company = document.getElementById("searchBox").value.trim();
-  const jobTitle = document.getElementById("job-title").value;
-  const experience = document.getElementById("experience").value;
-  console.log("Company Name:", company);
-  console.log("Job Title:", jobTitle);
-  console.log("Experience:", experience);
-
-  // You can now call a function like displayJobs() with these values
-  displayJobs(company, jobTitle, experience);
-});
-
-
-
-function displayJobs(filterCompany = "", filterTitle = "", filterExperience = "") {
-    const jobContainer = document.getElementById("jobs-container");
-    jobContainer.innerHTML = ""; // Clear previous jobs
-    console.log(AllJobs);
-    for (let i = 0; i < AllJobs.length; i++) {
-      const job = AllJobs[i];
-      console.log("job before filter:", job);
-      // Check if user is logged in and has applied to this job
-      const isApplied = session.currUser?.appliedJobs?.some(appliedJob => appliedJob.id === job.id);
-      
-      if (isApplied) {
-          continue; // Skip this job if already applied
-      }
-      if(filterCompany && filterCompany !== job.companyName){ 
-        continue; // Skip if company name doesn't match{
-      }
-      if(filterTitle && filterTitle !== job.title){
-        continue; // Skip if job title doesn't match
-      }
-      if(filterExperience && filterExperience !== job.yearsOfExperience){
-        continue; // Skip if years of experience doesn't match
-      }
-      console.log("Job Allowed:", job);
-      
-      const jobCard = document.createElement("div");
-      jobCard.className = "job-card";
-      jobCard.innerHTML = `
-              <div class="job-basic-info">
-                  <h3 class="company-name">${job.companyName}</h3>
-                  <p class="job-title">${job.title}</p>
-                  <p class="job-experience">${job.yearsOfExperience}</p>
-              </div>
-              <input type="checkbox" id="${job.id}" class="details-checkbox">
-              <label for="${job.id}" class="view-details-btn">
-              View Details <span class="arrow">▼</span>
-              </label>
-              <div class="job-details">
-                  <div class="details-content">
-                      <p><strong>Salary:</strong> ${job.salary}</p>
-                      <p><strong>Requirements:</strong> ${job.requirements}</p>
-                      <p><strong>Location:</strong>${job.location} </p>
-                      <p><strong>Description:</strong> ${job.description}</p>
-                  </div>
-                  <button class="apply-btn" data-job-id="${job.id}">Apply for Job</button>
-              </div>
-      `;
-      jobContainer.appendChild(jobCard);
-      console.log("Job Allowed:", job);
-  }
-  const applyButtons = document.querySelectorAll(".apply-btn");
-      applyButtons.forEach((button) => {
-          button.addEventListener("click", (event) => {
-              const jobId = event.target.getAttribute("data-job-id");
-              const job = AllJobs.find((j) => j.id == jobId);
-              console.log(session.currUser);
-              if(!job.status || job.status === "Closed") {
-                  console.log("Job is no longer available.");
-                  Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: "This job is no longer available.",
-                  });
-                  return;
-              }
-              if (session.currUser) {
-                  session.currUser.applyJob(job);
-                  
-                  const jobCard = event.target.closest('.job-card');
-                  jobCard.style.transition = 'opacity 0.3s ease';
-                  jobCard.style.opacity = '0';
-                  
-                  // Wait for animation to complete before removing
-                  setTimeout(() => {
-                      jobCard.remove();
-                      
-                      // Optional: Show message if no jobs left
-                      if (document.querySelectorAll('.job-card').length === 0) {
-                          const noJobsMsg = document.createElement('p');
-                          noJobsMsg.textContent = 'No available jobs';
-                          document.getElementById("jobs-container").appendChild(noJobsMsg);
-                      }
-                  }, 300);
-                  Swal.fire({
-                      icon: "success",
-                      title: "Success",
-                      text: "You have successfully applied for the job.",
-                  });
-              } else {
-                  Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: "Please log in to apply for jobs.",
-                  });
-              }
-          });
-      });
-}
-// Optional: hide suggestions when clicking outside
-document.addEventListener("click", function (event) {
-  const box = document.getElementById("searchBox");
-  const suggestions = document.getElementById("suggestions");
-
-  if (!box.contains(event.target) && !suggestions.contains(event.target)) {
-    suggestions.innerHTML = "";
-  }
-});
-
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadSessionFromLocalStorage(); // Load session first
-  
-  displayJobs(); // Show all jobs initially
-
-  // ✅ Add this inside the DOMContentLoaded so the element is available
-  document.getElementById("searchBtn").addEventListener("click", function () {
-      const company = document.getElementById("searchBox").value.trim();
-      const jobTitle = document.getElementById("job-title").value.trim();
-      const experience = document.getElementById("experience").value.trim();
-
-      console.log("Search by:", company, jobTitle, experience);
-      displayJobs(company, jobTitle, experience);
-  });
-});

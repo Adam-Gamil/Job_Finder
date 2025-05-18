@@ -1,6 +1,5 @@
-
 .search-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -17,12 +16,14 @@
 
 .filter-group {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 .filter-select {
     flex: 1;
+    min-width: 180px;
 }
 
 .filter-select label {
@@ -42,6 +43,27 @@
     cursor: pointer;
 }
 
+.range-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.range-filter span {
+    color: #666;
+    font-size: 14px;
+}
+
+.range-dropdown {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
+
 .search-button {
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -52,6 +74,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     height: 40px;
+    white-space: nowrap;
 }
 
 .search-button:hover {
@@ -62,39 +85,14 @@
     margin-right: 5px;
 }
 
-
-#offer-img{
-    width: 40%;
-    /* margin-left: 100px; */
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-right: 10%;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-button {
+        width: 100%;
+    }
 }
-.offer-image.anim{
-    animation-delay: 1.5s;
-}
-
-.btn.anim{
-    animation-delay: 1s;
-}
-.getStarted:hover{
-    background-color: #005bb5;
-    transition: all 0.5s ease-in-out;
-}
-
-#suggestions {
-    border: 1px solid #ccc;
-    max-width: 200px;
-    position: absolute;
-    background-color: white;
-    z-index: 10;
-    border-radius: 5px;
-  }
-  .suggestion-item {
-    padding: 5px;
-    cursor: pointer;
-  }
-  .suggestion-item:hover {
-    background-color: #eee;
-  }
