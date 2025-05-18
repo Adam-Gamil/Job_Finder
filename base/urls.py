@@ -13,6 +13,7 @@ urlpatterns = [
     path('editAdminJob/', views.addJobAdmin, name='editAdminJob'),
     path('viewCreatedJobs/', views.viewCreatedJobs, name='viewCreatedJobs'),
     path('selectAndEditJobs/', views.selectAndEditJobs, name='selectAndEditJobs'),
+    path('delete-job/<int:job_id>/', views.delete_job, name='delete_job'),
     path('userDashboard/', views.userPage, name='userPage'),
     path('searchJob/', views.searchJob, name='searchJob'),
     path('viewAllJobs/', views.viewAllJobs, name='viewAllJobs'),

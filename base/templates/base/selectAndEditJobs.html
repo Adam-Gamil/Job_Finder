@@ -5,13 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Edit Jobs</title>
-    <link rel="stylesheet" href="{% static 'css/selectAndEditJobs.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/selectAndEditJobs.css' %}">
 </head>
 <body>
-
     <div class="hero">
-
         <nav>
             <a href="{% url 'adminPage' %}">
                 <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo" />
@@ -25,7 +23,15 @@
         </nav>
 
         <div class="jobs-container">
-            <h2>View All Jobs</h2>
+            <h2>Your Posted Jobs</h2>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             {% if jobs %}
                 <ul class="job-list">
@@ -38,57 +44,64 @@
                             <p><strong>Experience:</strong> {{ job.min_experience }} - {{ job.max_experience }} years</p>
                             <p><strong>Posted On:</strong> {{ job.datePosted|date:"M d, Y" }}</p>
 
-                            <a href="?job_id={{ job.id }}" class="btn-edit">Edit</a>
+                            <div class="job-actions">
+                                <a href="?job_id={{ job.id }}" class="btn-edit">Edit</a>
+                                <form method="POST" action="{% url 'delete_job' job.id %}" class="inline-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete">Delete</button>
+                                </form>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>You haven't posted any jobs yet.</p>
+                <p class="no-jobs">You haven't posted any jobs yet.</p>
             {% endif %}
 
             {% if selected_job %}
-                <hr />
+                <hr class="divider" />
                 <h3>Edit Job: {{ selected_job.title }}</h3>
-                <form method="POST">
+                <form method="POST" class="job-form">
                     {% csrf_token %}
                     <label for="title">Title</label>
                     <input type="text" id="title" name="title" value="{{ selected_job.title }}" required />
 
-                    <label for="min_salary">Min Salary</label>
-                    <input type="number" id="min_salary" name="min_salary" value="{{ selected_job.min_salary }}" required />
+                    <label for="min_salary">Min Salary ($)</label>
+                    <input type="number" id="min_salary" name="min_salary" value="{{ selected_job.min_salary }}" required min="0" />
 
-                    <label for="max_salary">Max Salary</label>
-                    <input type="number" id="max_salary" name="max_salary" value="{{ selected_job.max_salary }}" required />
+                    <label for="max_salary">Max Salary ($)</label>
+                    <input type="number" id="max_salary" name="max_salary" value="{{ selected_job.max_salary }}" required min="0" />
 
                     <label for="min_experience">Min Experience (years)</label>
-                    <input type="number" id="min_experience" name="min_experience" value="{{ selected_job.min_experience }}" required />
+                    <input type="number" id="min_experience" name="min_experience" value="{{ selected_job.min_experience }}" required min="0" />
 
                     <label for="max_experience">Max Experience (years)</label>
-                    <input type="number" id="max_experience" name="max_experience" value="{{ selected_job.max_experience }}" required />
+                    <input type="number" id="max_experience" name="max_experience" value="{{ selected_job.max_experience }}" required min="0" />
 
                     <label for="status">Status</label>
-                    <select id="status" name="status">
+                    <select id="status" name="status" required>
                         <option value="Open" {% if selected_job.status == "Open" %}selected{% endif %}>Open</option>
                         <option value="Closed" {% if selected_job.status == "Closed" %}selected{% endif %}>Closed</option>
                     </select>
 
                     <label for="requirements">Requirements</label>
-                    <textarea id="requirements" name="requirements" rows="4">{{ selected_job.requirements }}</textarea>
+                    <textarea id="requirements" name="requirements" rows="4" required>{{ selected_job.requirements }}</textarea>
 
                     <label for="description">Description</label>
-                    <textarea id="description" name="description" rows="4">{{ selected_job.description }}</textarea>
+                    <textarea id="description" name="description" rows="4" required>{{ selected_job.description }}</textarea>
 
                     <label for="location">Location</label>
-                    <textarea id="location" name="location" rows="2">{{ selected_job.location }}</textarea>
+                    <input type="text" id="location" name="location" value="{{ selected_job.location }}" required />
 
-                    <button type="submit">Update Job</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">Update Job</button>
+                        <a href="{% url 'selectAndEditJobs' %}" class="btn-cancel">Cancel</a>
+                    </div>
                 </form>
             {% endif %}
         </div>
-
     </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/selectAndEditJobs.js' %}"></script>
 </body>
 </html>

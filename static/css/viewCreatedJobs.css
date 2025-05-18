@@ -1,99 +1,93 @@
-.jobs-container {
+.job-list {
     max-width: 800px;
     margin: 30px auto;
-    padding: 20px;
+    padding: 0;
+    list-style: none;
     font-family: Arial, sans-serif;
 }
 
+/* Add to static/css/selectAndEditJobs.css */
+.jobs-container {
+    max-width: 800px;
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+    text-align: left; /* Center the heading */
+}
+
 .jobs-container h2 {
+    margin-bottom: 30px;
     color: #333;
-    margin-bottom: 20px;
+    font-size: 24px;
     text-align: center;
 }
 
-.job-card {
+.job-list h3 {
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+    font-size: 1.3em;
+}
+
+.job-item {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
+    background-color: #fff;
 }
 
-.job-card:hover {
+.job-item:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.job-basic-info {
-    margin-bottom: 15px;
-}
-
-.company-name {
-    color: #2c3e50;
-    margin: 0 0 5px 0;
-    font-size: 1.3em;
-}
-
-.job-title {
-    color: #3498db;
+.job-item p {
     margin: 5px 0;
-    font-weight: bold;
-}
-
-.job-experience {
-    color: #7f8c8d;
-    margin: 5px 0;
-}
-
-.details-checkbox {
-    display: none;
-}
-
-.view-details-btn {
-    background: none;
-    border: none;
-    color: #3498db;
+    color: #555;
     font-size: 14px;
-    cursor: pointer;
-    padding: 5px 10px;
+    line-height: 1.4;
+}
+
+.job-item p strong {
+    color: #333;
+}
+
+
+.job-actions {
     display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.view-details-btn:hover {
-    text-decoration: underline;
-}
-
-.arrow {
-    font-size: 12px;
-    transition: transform 0.3s;
-}
-
-.job-details {
-    max-height: 0;
-    overflow: hidden;
-    margin-top: 0;
-    padding-top: 0;
-    transition: all 0.3s ease;
-}
-
-.details-checkbox:checked ~ .job-details {
-    max-height: 500px; /* Adjust based on your content */
+    justify-content: left; 
+    gap: 10px;
     margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px dashed #ddd;
 }
 
-.details-checkbox:checked ~ .view-details-btn .arrow {
-    transform: rotate(180deg);
+.inline-form {
+    display: inline; 
 }
 
-.details-content {
-    margin-bottom: 15px;
+.btn-delete {
+    background-color: #ff4444;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
 }
 
-.details-content p {
-    margin: 8px 0;
-    line-height: 1.5;
+.btn-delete:hover {
+    background-color: #cc0000;
+}
+
+.btn-edit {
+    background-color: #2196F3;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-edit:hover {
+    background-color: #0b7dda;
 }

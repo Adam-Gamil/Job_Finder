@@ -139,33 +139,47 @@ def viewCreatedJobs(request):
 
 @login_required(login_url='login')
 def selectAndEditJobs(request):
-    # Get jobs posted by the logged-in user
+    if not request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
+        
     jobs = Job.objects.filter(employer=request.user).order_by('-datePosted')
     selected_job = None
-
     job_id = request.GET.get('job_id')
 
     if job_id:
         selected_job = get_object_or_404(Job, id=job_id, employer=request.user)
 
         if request.method == 'POST':
-            # Update the job with submitted data from form
-            selected_job.title = request.POST.get('title')
-            selected_job.min_salary = int(request.POST.get('min_salary'))
-            selected_job.max_salary = int(request.POST.get('max_salary'))
-            selected_job.min_experience = int(request.POST.get('min_experience'))
-            selected_job.max_experience = int(request.POST.get('max_experience'))
-            selected_job.status = request.POST.get('status')
-            selected_job.requirements = request.POST.get('requirements')
-            selected_job.description = request.POST.get('description')
-            selected_job.location = request.POST.get('location')
-
-            selected_job.save()
-            messages.success(request, 'Job updated successfully!')
-            # Redirect back to the same edit page to see changes
+            try:
+                selected_job.title = request.POST.get('title')
+                selected_job.min_salary = int(request.POST.get('min_salary'))
+                selected_job.max_salary = int(request.POST.get('max_salary'))
+                selected_job.min_experience = int(request.POST.get('min_experience'))
+                selected_job.max_experience = int(request.POST.get('max_experience'))
+                selected_job.status = request.POST.get('status')
+                selected_job.requirements = request.POST.get('requirements')
+                selected_job.description = request.POST.get('description')
+                selected_job.location = request.POST.get('location')
+                selected_job.save()
+                messages.success(request, 'Job updated successfully!')
+            except Exception as e:
+                messages.error(request, f'Error updating job: {str(e)}')
+            
             return redirect(f"{request.path}?job_id={selected_job.id}")
 
-    return render(request, 'base/selectAndEditJobs.html', {'jobs': jobs, 'selected_job': selected_job})
+    return render(request, 'base/selectAndEditJobs.html', {
+        'jobs': jobs,
+        'selected_job': selected_job
+    })
+
+@login_required(login_url='login')
+def delete_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id, employer=request.user)
+    if request.method == 'POST':
+        job.delete()
+        messages.success(request, 'Job deleted successfully!')
+    return redirect('selectAndEditJobs')
 
 
 
