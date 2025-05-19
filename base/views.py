@@ -12,6 +12,13 @@ def home(request):
 
 
 def loginPage(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in')
+        if request.user.is_admin:
+            return redirect('adminPage')
+        else:
+            return redirect('userPage')
+    # Check if the user is already logged in
     if request.method == 'POST':
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
@@ -38,9 +45,21 @@ def logoutUser(request):
     return redirect('home')
 
 def signupPage(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in')
+        if request.user.is_admin:
+            return redirect('adminPage')
+        else:
+            return redirect('userPage')
     return render(request, 'base/signup.html')
 
 def signupAdminPage(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in')
+        if request.user.is_admin:
+            return redirect('adminPage')
+        else:
+            return redirect('userPage')
     form = CustomUserCreationForm()
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -59,6 +78,12 @@ def signupAdminPage(request):
     return render(request, 'base/signupAdmin.html',{'form': form})
 
 def signupUserPage(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in')
+        if request.user.is_admin:
+            return redirect('adminPage')
+        else:
+            return redirect('userPage')
     form = CustomUserCreationForm()
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -74,6 +99,9 @@ def signupUserPage(request):
 
 @login_required(login_url='login')
 def adminPage(request):
+    if not request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     return render(request, 'base/adminDashboard.html')
 
 @login_required(login_url='login')
@@ -230,15 +258,24 @@ def editAdminJob(request, job_id):
 
 @login_required(login_url='login')
 def userPage(request):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     return render(request, 'base/userDashboard.html')
 
 
 @login_required(login_url='login')
 def searchJob(request):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     return render(request, 'base/searchForJob.html')
 
 @login_required(login_url='login')
 def viewAllJobs(request):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     all_jobs = Job.objects.all()
     applied_jobs = JobApplication.objects.filter(user=request.user).values_list('job_id', flat=True)
     unapplied_jobs = all_jobs.exclude(id__in=applied_jobs)
@@ -246,12 +283,18 @@ def viewAllJobs(request):
 
 @login_required(login_url='login')
 def viewAppliedJobs(request):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     applied_jobs = JobApplication.objects.filter(user=request.user)
     return render(request, 'base/viewAppliedJobs.html', {'applied_jobs': applied_jobs})
 
 
 @login_required(login_url='login')
 def apply_job(request, job_id):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     job = get_object_or_404(Job, id=job_id)
     
     if job.status == 'Closed':
@@ -270,6 +313,9 @@ def apply_job(request, job_id):
 
 @login_required(login_url='login')
 def withdraw_application(request, application_id):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     application = get_object_or_404(JobApplication, id=application_id, user=request.user)
     if request.method == 'POST':
         application.delete()
@@ -279,6 +325,9 @@ def withdraw_application(request, application_id):
 
 @login_required(login_url='login')
 def searchJob(request):
+    if request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     # Get filter parameters from request
     company_name = request.GET.get('company', '')
     job_title = request.GET.get('title', '')
