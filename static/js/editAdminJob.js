@@ -1,83 +1,61 @@
-import {
-    AllJobs,
-    session,
-    saveJobsToLocalStorage,
-    saveUsersToLocalStorage,
-    loadSessionFromLocalStorage,
-  } from "./main.js";
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    loadSessionFromLocalStorage();
-  
-    const params = new URLSearchParams(window.location.search);
-    const jobId = Number(params.get("id"));
-  
-    const job = session.currUser?.AdminJobs.find(j => Number(j.id) === jobId);
-  
-    if (!job) {
-      Swal.fire({
-        icon: "error",
-        title: "Job not found",
-        text: "The job you are trying to edit does not exist.",
-      }).then(() => {
-        window.location.href = "viewCreatedJobs.html";
-      });
-      return;
-    }
-  
-    
-    document.getElementById("job-title").value = job.title;
-    document.getElementById("job-salary").value = job.salary;
-    document.getElementById("years_exp").value = job.yearsOfExperience;
-    document.getElementById("requirements").value = job.requirements;
-    document.getElementById("description").value = job.description;
-    document.getElementById("location").value = job.location;
-  
-    const statusInputs = document.getElementsByName("status");
-    for (let input of statusInputs) {
-      if (input.value === (job.status ? "Open" : "Closed")) {
-        input.checked = true;
-      }
-    }
-  
-    const editJobBtn = document.getElementById("addJobBtn");
-    editJobBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-  
-      // Update job data with new values
-      job.title = document.getElementById("job-title").value;
-      job.salary = document.getElementById("job-salary").value;
-      job.yearsOfExperience = document.getElementById("years_exp").value;
-      job.requirements = document.getElementById("requirements").value;
-      job.description = document.getElementById("description").value;
-      job.location = document.getElementById("location").value;
-  
-      const selectedStatus = Array.from(statusInputs).find(input => input.checked);
-      job.status = selectedStatus?.value === "Open";
+document.addEventListener("DOMContentLoaded", () => {
+  // Handle edit form submission with SweetAlert
+  function attachEditListeners() {
+    const editForm = document.querySelector("form"); // or a more specific selector
 
-      AllJobs.find(j => j.id === job.id).status = job.status;
-      AllJobs.find(j => j.id === job.id).title = job.title;
-      AllJobs.find(j => j.id === job.id).salary = job.salary;
-      AllJobs.find(j => j.id === job.id).yearsOfExperience = job.yearsOfExperience;
-      AllJobs.find(j => j.id === job.id).requirements = job.requirements;
-      AllJobs.find(j => j.id === job.id).description = job.description;
-      AllJobs.find(j => j.id === job.id).location = job.location;
-  
-    
-      saveJobsToLocalStorage();
-      saveUsersToLocalStorage();
-  
-      
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Job updated successfully!",
-        timer: 2000,
-        showConfirmButton: false,
-      }).then(() => {
-        
-        window.location.href = "viewCreatedJobs.html";
+    if (!editForm) return;
+
+    editForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Validate salary
+      const minSalary = parseInt(editForm.querySelector('[name="min_salary"]').value);
+      const maxSalary = parseInt(editForm.querySelector('[name="max_salary"]').value);
+      if (minSalary > maxSalary) {
+        await Swal.fire({
+          icon: "error",
+          title: "Invalid Salary Range",
+          text: "Minimum salary cannot be greater than maximum salary",
+        });
+        return;
+      }
+
+      // Validate experience
+      const minExp = parseInt(editForm.querySelector('[name="min_experience"]').value);
+      const maxExp = parseInt(editForm.querySelector('[name="max_experience"]').value);
+      if (minExp > maxExp) {
+        await Swal.fire({
+          icon: "error",
+          title: "Invalid Experience Range",
+          text: "Minimum experience cannot be greater than maximum experience",
+        });
+        return;
+      }
+
+      // Show confirmation before submitting
+      const confirm = await Swal.fire({
+        title: "Update Job?",
+        text: "Are you sure you want to update this job?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, update it!",
+        cancelButtonText: "Cancel",
       });
+
+      if (confirm.isConfirmed) {
+        // Show success message
+        await Swal.fire({
+          icon: "success",
+          title: "Updating Job...",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+
+        // Submit form after confirmation and success message
+        editForm.submit();
+      }
     });
-  });
-  
+  }
+
+  attachEditListeners();
+});

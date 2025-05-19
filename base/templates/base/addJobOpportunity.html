@@ -2,84 +2,77 @@
 {% load static %}
 {% block title %}Add Jobs{% endblock %}
 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/addJobOpportunity.css' %}">
+<link rel="stylesheet" href="{% static 'css/global.css' %}">
+{% endblock styles %}
 
+{% block content %}
+    <div class="job-opport">
+        <h1>About The Job</h1>
 
-    {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/addJobOpportunity.css' %}">
-    <link rel="stylesheet" href="{% static 'css/global.css' %}">
-    {% endblock styles %}
+        <form method="POST">
+            {% csrf_token %}
 
-    {% block content %}
-        <div class="job-opport">
-            <h1>About The Job</h1>
-
-            <form method="POST">
-                {% csrf_token %}
-
-                <div class="add-details">
-
-                    <div class="input-box">
-                        <label><strong>Job Title</strong></label>
-                        <select name="job-title" class="filter-dropdown" required>
-                            <option value="" disabled selected>Select Job Title</option>
-                            <option value="Software Engineer">Software Engineer</option>
-                            <option value="Back End Developer">Back End Developer</option>
-                            <option value="Front End Developer">Front End Developer</option>
-                            <option value="Data Scientist">Data Scientist</option>
-                            <option value="Full Stack Developer">Full Stack Developer</option>
-                        </select>
-                    </div>
-
-                    <div class="input-box">
-                        <label><strong>Job Salary</strong></label>
-                        <select name="job-salary" class="filter-dropdown" required>
-                            <option value="" disabled selected>Select Job Salary</option>
-                            <option value="20000$-40000$">20,000$ ~ 40,000$</option>
-                            <option value="40000$-60000$">40,000$ ~ 60,000$</option>
-                            <option value="60000$-80000$">60,000$ ~ 80,000$</option>
-                            <option value="80000$-120000$">80,000$ ~ 120,000$</option>
-                            <option value="120000$+">120,000$ or more</option>
-                        </select>
-                    </div>
-
-                    <div class="input-box">
-                        <label><strong>Years of Experience</strong></label>
-                        <select name="years_exp" class="filter-dropdown" required>
-                            <option value="" disabled selected>Select Experience</option>
-                            <option value="0-1 years experience">0-1 year</option>
-                            <option value="1-3 years experience">1-3 years</option>
-                            <option value="3-7 years experience">3-7 years</option>
-                            <option value="7-15 years experience">7-15 years</option>
-                            <option value="15+ years experience">15+ years</option>
-                        </select>
-                    </div>
-
-                    <label><strong>Job Status</strong></label>
-                    <div class="stat">
-                        <label>Open</label>
-                        <input type="radio" name="status" value="Open" required>
-                        <label>Closed</label>
-                        <input type="radio" name="status" value="Closed">
-                    </div>
-
-                    <div class="input-box">
-                        <label><strong>Job Requirements</strong></label>
-                        <textarea class="dis" name="Requirements" placeholder="Write the requirements here" cols="30" rows="5" required></textarea>
-                    </div>
-
-                    <div class="input-box">
-                        <label><strong>Job Description</strong></label>
-                        <textarea class="dis" name="description" placeholder="Write the description here" cols="30" rows="5" required></textarea>
-                    </div>
-
-                    <div class="input-box">
-                        <label><strong>Job Location</strong></label>
-                        <textarea class="dis" name="Location" placeholder="Write the location here" cols="30" rows="5" required></textarea>
-                    </div>
-
-                    <button class="btn" type="submit">Add Job</button>
-
+            <div class="add-details">
+                <div class="input-box">
+                    <label><strong>Job Title</strong></label>
+                    <input type="text" name="job-title" placeholder="Write the Job title here " required>
                 </div>
-            </form>
-        </div>
-    {% endblock content %}
+
+                <div class="input-box">
+                    <label><strong>Job Salary</strong></label>
+                    <div class="range-inputs">
+                        <div class="range-group">
+                            <label>Minimum Salary</label>
+                            <input type="text" name="min_salary" placeholder="min salary" required>
+                        </div>
+                        <div class="range-group">
+                            <label>Maximum Salary</label>
+                            <input type="text" name="max_salary" placeholder="max salary" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label><strong>Years of Experience</strong></label>
+                    <div class="range-inputs">
+                        <div class="range-group">
+                            <label>Minimum Years</label>
+                            <input type="text" name="min_experience" placeholder="min experience" required>
+                        </div>
+                        <div class="range-group">
+                            <label>Maximum Years</label>
+                            <input type="text" name="max_experience" placeholder="max experience" required>
+                        </div>
+                    </div>
+                </div>
+
+                <label><strong>Job Status</strong></label>
+                <div class="stat">
+                    <label>Open</label>
+                    <input type="radio" name="status" value="Open" required>
+                    <label>Closed</label>
+                    <input type="radio" name="status" value="Closed">
+                </div>
+
+                <div class="input-box">
+                    <label><strong>Job Requirements</strong></label>
+                    <textarea class="dis" name="Requirements" placeholder="Write the requirements here" cols="30" rows="5" required></textarea>
+                </div>
+
+                <div class="input-box">
+                    <label><strong>Job Description</strong></label>
+                    <textarea class="dis" name="description" placeholder="Write the description here" cols="30" rows="5" required></textarea>
+                </div>
+
+                <div class="input-box">
+                    <label><strong>Job Location</strong></label>
+                    <textarea class="dis" name="Location" placeholder="Write the location here" cols="30" rows="5" required></textarea>
+                </div>
+
+                <button class="btn" type="submit">Add Job</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

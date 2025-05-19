@@ -80,44 +80,43 @@ def adminPage(request):
 def addJobAdmin(request):
     if request.method == 'POST':
         title = request.POST.get('job-title')
-        salary = request.POST.get('job-salary')
-        experience = request.POST.get('years_exp')
+        min_salary = request.POST.get('min_salary')  # Changed from job-salary
+        max_salary = request.POST.get('max_salary')  # New field
+        min_experience = request.POST.get('min_experience')  # Changed from years_exp
+        max_experience = request.POST.get('max_experience')  # New field
         status = request.POST.get('status')
         requirements = request.POST.get('Requirements')
         description = request.POST.get('description')
         location = request.POST.get('Location')
 
-        if title and salary and experience and status and requirements and description and location:
-            # Parse salary (e.g., "20000$-40000$")
-            try:
-                salary_range = salary.replace('$', '').split('-')
-                if len(salary_range) == 2:
-                    min_salary = int(salary_range[0])
-                    max_salary = int(salary_range[1])
-                else:
-                    min_salary = max_salary = int(salary_range[0].replace('+', ''))
-            except:
-                messages.error(request, "Invalid salary format.")
-                return render(request, 'base/addJobOpportunity.html')
+        # Validate all required fields are present
+        if not all([title, min_salary, max_salary, min_experience, max_experience, 
+                   status, requirements, description, location]):
+            messages.error(request, "Please fill out all fields.")
+            return render(request, 'base/addJobOpportunity.html')
 
-            # Parse experience (e.g., "1-3 years experience")
-            try:
-                exp_range = experience.split()[0].split('-')
-                if len(exp_range) == 2:
-                    min_exp = int(exp_range[0])
-                    max_exp = int(exp_range[1])
-                else:
-                    min_exp = max_exp = int(exp_range[0].replace('+', ''))
-            except:
-                messages.error(request, "Invalid experience format.")
+        try:
+            # Convert to integers
+            min_salary = int(min_salary)
+            max_salary = int(max_salary)
+            min_experience = int(min_experience)
+            max_experience = int(max_experience)
+            
+            # Validate ranges
+            if min_salary > max_salary:
+                messages.error(request, "Minimum salary cannot be greater than maximum salary.")
+                return render(request, 'base/addJobOpportunity.html')
+                
+            if min_experience > max_experience:
+                messages.error(request, "Minimum experience cannot be greater than maximum experience.")
                 return render(request, 'base/addJobOpportunity.html')
 
             Job.objects.create(
                 employer=request.user,
                 title=title,
                 description=description,
-                min_experience=min_exp,
-                max_experience=max_exp,
+                min_experience=min_experience,
+                max_experience=max_experience,
                 min_salary=min_salary,
                 max_salary=max_salary,
                 requirements=requirements,
@@ -126,8 +125,10 @@ def addJobAdmin(request):
             )
             messages.success(request, "Job added successfully.")
             return redirect('viewCreatedJobs')
-        else:
-            messages.error(request, "Please fill out all fields.")
+            
+        except ValueError:
+            messages.error(request, "Please enter valid numbers for salary and experience.")
+            return render(request, 'base/addJobOpportunity.html')
 
     return render(request, 'base/addJobOpportunity.html')
 
@@ -180,6 +181,37 @@ def delete_job(request, job_id):
         job.delete()
         messages.success(request, 'Job deleted successfully!')
     return redirect('selectAndEditJobs')
+
+@login_required(login_url='login')
+def editAdminJob(request, job_id):
+    job = get_object_or_404(Job, id=job_id, employer=request.user)
+    
+    if request.method == 'POST':
+        try:
+            job.title = request.POST.get('job-title')
+            job.min_salary = int(request.POST.get('min_salary'))
+            job.max_salary = int(request.POST.get('max_salary'))
+            job.min_experience = int(request.POST.get('min_experience'))
+            job.max_experience = int(request.POST.get('max_experience'))
+            job.status = request.POST.get('status')
+            job.requirements = request.POST.get('Requirements')
+            job.description = request.POST.get('Description')
+            job.location = request.POST.get('Location')
+            job.save()
+            messages.success(request, 'Job updated successfully!')
+            return redirect('viewCreatedJobs')
+        except Exception as e:
+            messages.error(request, f'Error updating job: {str(e)}')
+    
+    # Convert values for dropdowns
+    experience_range = f"{job.min_experience}-{job.max_experience} years experience"
+    salary_range = f"{job.min_salary}${job.max_salary}$"
+    
+    return render(request, 'base/editAdminJob.html', {
+        'job': job,
+        'experience_range': experience_range,
+        'salary_range': salary_range
+    })
 
 
 
