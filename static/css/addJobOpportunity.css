@@ -2,7 +2,7 @@
 .job-opport {
     margin: auto;
     width: 600px;
-    height: 900px;
+    height: auto;
     border-radius: 10px;
     background-color: #0073e67d;
     backdrop-filter: blur(10px);

@@ -22,11 +22,11 @@
     justify-content: space-between;
     /* background-color: #0073E6; */
     /* color: #fff; */
-    padding: 10px 10%;
+    padding: 10px 10px;
     margin: 20px;
 }
 .hero nav .logo{
-    width: 10%;
+    width: 25%;
     cursor: pointer;
 }
 .hero nav ul{
@@ -38,7 +38,7 @@
 .hero nav ul li{
     display: inline-block;
     list-style: none;
-    margin: 0 30px;
+    margin: 0 10px;
 }
 .hero nav ul li a{
     text-decoration: none;
@@ -48,12 +48,12 @@
     border: none;
     outline: none;
     border-radius: 30px;
+    transition: all 0.3s ease-in-out;
 }
 .hero nav ul li a:hover{
     /* background-color: #0073E6;
     color: #fff; */
     color: #0073E6;
-    transition: all 0.3s ease-in-out;
     /* height: 85px; */
 }
 .footer{
