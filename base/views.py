@@ -78,6 +78,10 @@ def adminPage(request):
 
 @login_required(login_url='login')
 def addJobAdmin(request):
+    if not request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
+    
     if request.method == 'POST':
         title = request.POST.get('job-title')
         min_salary = request.POST.get('min_salary')  # Changed from job-salary
@@ -134,6 +138,9 @@ def addJobAdmin(request):
 
 @login_required(login_url='login')
 def viewCreatedJobs(request):
+    if not request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     jobs = Job.objects.filter(employer=request.user).order_by('-datePosted')
     return render(request, 'base/viewCreatedJobs.html', {'jobs': jobs})
 
@@ -176,6 +183,9 @@ def selectAndEditJobs(request):
 
 @login_required(login_url='login')
 def delete_job(request, job_id):
+    if not request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     job = get_object_or_404(Job, id=job_id, employer=request.user)
     if request.method == 'POST':
         job.delete()
@@ -184,8 +194,11 @@ def delete_job(request, job_id):
 
 @login_required(login_url='login')
 def editAdminJob(request, job_id):
-    job = get_object_or_404(Job, id=job_id, employer=request.user)
+    if not request.user.is_admin:
+        messages.error(request, "Unauthorized access")
+        return redirect('home')
     
+    job = get_object_or_404(Job, id=job_id, employer=request.user)
     if request.method == 'POST':
         try:
             job.title = request.POST.get('job-title')
