@@ -18,7 +18,7 @@
                     <div class="job-basic-info">
                         <h3 class="company-name">{{ application.job.employer.company_name }}</h3>
                         <p class="job-title">{{ application.job.title }}</p>
-                        <p class="job-experience">{{ application.job.years_of_experience }} experience</p>
+                        <p class="job-experience">{{ application.job.min_experience }}-{{ application.job.max_experience }} years experience</p>
                     </div>
 
                     <input type="checkbox" id="toggle-{{ application.id }}" class="details-checkbox">

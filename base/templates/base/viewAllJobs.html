@@ -17,7 +17,7 @@
                 <div class="job-basic-info">
                     <h3 class="company-name">{{ job.employer.company_name }}</h3>
                     <p class="job-title">{{ job.title }}</p>
-                    <p class="job-experience">{{ job.years_of_experience }} experience</p>
+                    <p class="job-experience">{{ job.min_experience }}-{{ job.max_experience }} years experience</p>
                 </div>
 
                 <button class="toggle-btn" onclick="toggleDetails('{{ job.id }}')">

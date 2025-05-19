@@ -308,7 +308,7 @@ def apply_job(request, job_id):
         JobApplication.objects.create(user=request.user, job=job)
         messages.success(request, 'Application submitted successfully!')
     
-    return redirect('viewAllJobs')
+    return redirect('viewAppliedJobs')
 
 
 @login_required(login_url='login')
