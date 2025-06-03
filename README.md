@@ -35,18 +35,3 @@ Employers can post job listings and manage applications.
 - **Django ORM** - Database operations
 - **SQLite** - Development database (can be configured for PostgreSQL/MySQL in production)
 
-
-## 🏗️ Project Structure
-
-jobify/
-├── base/ # Main Django app
-│ ├── templates/ # HTML templates
-│ ├── static/ # CSS, JS, images
-│ ├── models.py # Database models
-│ ├── views.py # Business logic
-│ └── urls.py # URL routing
-├── jobify/ # Project config
-│ ├── settings.py # Django settings
-│ └── urls.py # Main URLs
-├── requirements.txt # Python dependencies
-└── README.md # This file
